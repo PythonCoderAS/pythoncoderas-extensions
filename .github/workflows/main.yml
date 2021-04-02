@@ -29,6 +29,7 @@ jobs:
       - run: npm run bundle
       - run: npx typedoc -out bundles/docs
         continue-on-error: true
+      - run: touch .nojeykll
 
       - name: Deploy
         uses: s0/git-publish-subdir-action@master
