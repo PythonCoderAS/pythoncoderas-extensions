@@ -2,7 +2,7 @@ import {
     Chapter,
     ChapterDetails,
     HomeSection,
-    Manga,
+    Manga, MangaUpdates,
     PagedResults,
     Request,
     SearchRequest,
@@ -15,7 +15,7 @@ const BASE = "https://glitchycomics.com"
 
 export const GlitchyComicsInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.1.0",
+    version: "1.1.1",
     name: "GlitchyComics",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -113,5 +113,11 @@ export class GlitchyComics extends Source {
         return createPagedResults({
             results: await this.doSearch(query)
         });
+    }
+
+    async filterUpdatedManga(mangaUpdatesFoundCallback: (updates: MangaUpdates) => void, time: Date, ids: string[]): Promise<void> {
+        mangaUpdatesFoundCallback(createMangaUpdates({
+            ids: ids
+        }));
     }
 }

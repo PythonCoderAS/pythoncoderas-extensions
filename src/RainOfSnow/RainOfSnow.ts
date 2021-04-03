@@ -2,7 +2,7 @@ import {
     Chapter,
     ChapterDetails,
     HomeSection,
-    Manga, MangaTile,
+    Manga, MangaTile, MangaUpdates,
     PagedResults,
     Request,
     SearchRequest,
@@ -110,5 +110,11 @@ export class RainOfSnow extends Source {
         return createPagedResults({
             results: this.parser.parseSearchResult($, BASE)
         });
+    }
+
+    async filterUpdatedManga(mangaUpdatesFoundCallback: (updates: MangaUpdates) => void, time: Date, ids: string[]): Promise<void> {
+        mangaUpdatesFoundCallback(createMangaUpdates({
+            ids: ids
+        }));
     }
 }

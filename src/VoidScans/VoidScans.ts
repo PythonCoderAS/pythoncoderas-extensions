@@ -2,7 +2,7 @@ import {
     Chapter,
     ChapterDetails,
     HomeSection,
-    Manga, MangaTile,
+    Manga, MangaTile, MangaUpdates,
     PagedResults,
     Request,
     SearchRequest,
@@ -15,7 +15,7 @@ const BASE = "https://voidscans.net"
 
 export const VoidScansInfo: SourceInfo = {
     icon: "icon.svg",
-    version: "1.2.0",
+    version: "1.2.1",
     name: "VoidScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -115,5 +115,12 @@ export class VoidScans extends Source {
         return createPagedResults({
             results: data
         });
+    }
+
+
+    async filterUpdatedManga(mangaUpdatesFoundCallback: (updates: MangaUpdates) => void, time: Date, ids: string[]): Promise<void> {
+        mangaUpdatesFoundCallback(createMangaUpdates({
+            ids: ids
+        }));
     }
 }
