@@ -340,8 +340,8 @@ const paperback_extensions_common_1 = require("paperback-extensions-common");
 const VoidScansParser_1 = require("./VoidScansParser");
 const BASE = "https://voidscans.net";
 exports.VoidScansInfo = {
-    icon: "icon.png",
-    version: "1.1.0",
+    icon: "",
+    version: "1.2.0",
     name: "VoidScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -396,7 +396,7 @@ class VoidScans extends paperback_extensions_common_1.Source {
             const pages = [];
             let page = yield this.getChapterPage(mangaId, chapterId);
             let num = 2;
-            while (page) {
+            while (page && !pages.includes(page)) {
                 pages.push(page);
                 page = yield this.getChapterPage(mangaId, chapterId, num);
                 num++;
