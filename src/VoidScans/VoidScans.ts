@@ -14,8 +14,8 @@ import {VoidScansParser} from "./VoidScansParser";
 const BASE = "https://voidscans.net"
 
 export const VoidScansInfo: SourceInfo = {
-    icon: "icon.png",
-    version: "1.1.0",
+    icon: "",
+    version: "1.2.0",
     name: "VoidScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -67,7 +67,7 @@ export class VoidScans extends Source {
         const pages: string[] = [];
         let page = await this.getChapterPage(mangaId, chapterId);
         let num = 2;
-        while (page){
+        while (page && !pages.includes(page)){
             pages.push(page)
             page = await this.getChapterPage(mangaId, chapterId, num);
             num++;
