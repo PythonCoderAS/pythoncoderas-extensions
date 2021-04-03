@@ -340,7 +340,7 @@ const paperback_extensions_common_1 = require("paperback-extensions-common");
 const VoidScansParser_1 = require("./VoidScansParser");
 const BASE = "https://voidscans.net";
 exports.VoidScansInfo = {
-    icon: "",
+    icon: "icon.svg",
     version: "1.2.0",
     name: "VoidScans",
     author: "PythonCoderAS",
