@@ -341,7 +341,7 @@ const VoidScansParser_1 = require("./VoidScansParser");
 const BASE = "https://voidscans.net";
 exports.VoidScansInfo = {
     icon: "icon.svg",
-    version: "1.2.0",
+    version: "1.2.1",
     name: "VoidScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -448,6 +448,13 @@ class VoidScans extends paperback_extensions_common_1.Source {
             return createPagedResults({
                 results: data
             });
+        });
+    }
+    filterUpdatedManga(mangaUpdatesFoundCallback, time, ids) {
+        return __awaiter(this, void 0, void 0, function* () {
+            mangaUpdatesFoundCallback(createMangaUpdates({
+                ids: ids
+            }));
         });
     }
 }

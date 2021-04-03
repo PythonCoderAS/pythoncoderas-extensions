@@ -341,7 +341,7 @@ const GlitchyComicsParser_1 = require("./GlitchyComicsParser");
 const BASE = "https://glitchycomics.com";
 exports.GlitchyComicsInfo = {
     icon: "icon.png",
-    version: "1.1.0",
+    version: "1.1.1",
     name: "GlitchyComics",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -445,6 +445,13 @@ class GlitchyComics extends paperback_extensions_common_1.Source {
             return createPagedResults({
                 results: yield this.doSearch(query)
             });
+        });
+    }
+    filterUpdatedManga(mangaUpdatesFoundCallback, time, ids) {
+        return __awaiter(this, void 0, void 0, function* () {
+            mangaUpdatesFoundCallback(createMangaUpdates({
+                ids: ids
+            }));
         });
     }
 }

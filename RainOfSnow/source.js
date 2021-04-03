@@ -444,6 +444,13 @@ class RainOfSnow extends paperback_extensions_common_1.Source {
             });
         });
     }
+    filterUpdatedManga(mangaUpdatesFoundCallback, time, ids) {
+        return __awaiter(this, void 0, void 0, function* () {
+            mangaUpdatesFoundCallback(createMangaUpdates({
+                ids: ids
+            }));
+        });
+    }
 }
 exports.RainOfSnow = RainOfSnow;
 
