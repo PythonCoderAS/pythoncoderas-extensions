@@ -14,7 +14,7 @@ import {VoidScansParser} from "./VoidScansParser";
 const BASE = "https://voidscans.net"
 
 export const VoidScansInfo: SourceInfo = {
-    icon: "",
+    icon: "icon.svg",
     version: "1.2.0",
     name: "VoidScans",
     author: "PythonCoderAS",
