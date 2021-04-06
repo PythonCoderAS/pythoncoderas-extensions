@@ -341,7 +341,7 @@ const CatMangaParser_1 = require("./CatMangaParser");
 const BASE = "https://catmanga.org";
 exports.CatMangaInfo = {
     icon: "icon.png",
-    version: "1.0.1",
+    version: "1.0.2",
     name: "CatManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -530,7 +530,19 @@ class CatMangaParser {
     }
     parsePages($) {
         const json = JSON.parse($("script#__NEXT_DATA__").html() || "{}");
-        return json.props.pageProps.pages;
+        if (json) {
+            const props = json.props;
+            if (props) {
+                const pageProps = props.pageProps;
+                if (pageProps) {
+                    const pages = pageProps.pages;
+                    if (pages) {
+                        return pages;
+                    }
+                }
+            }
+        }
+        return [];
     }
     parseChapterList($, mangaId) {
         const chapters = [];
