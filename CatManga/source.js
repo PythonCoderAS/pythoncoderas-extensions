@@ -340,7 +340,7 @@ const paperback_extensions_common_1 = require("paperback-extensions-common");
 const CatMangaParser_1 = require("./CatMangaParser");
 const BASE = "https://catmanga.org";
 exports.CatMangaInfo = {
-    icon: "icon.svg",
+    icon: "icon.png",
     version: "1.0.0",
     name: "CatManga",
     author: "PythonCoderAS",
