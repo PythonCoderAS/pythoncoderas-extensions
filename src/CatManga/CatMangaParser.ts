@@ -70,7 +70,39 @@ export class CatMangaParser {
         return [];
     }
 
-    parseChapterList($: CheerioStatic, mangaId: string) {
+    parseChapterList($: CheerioStatic, mangaId: string){
+        const chapters = []
+        const json = JSON.parse($("script#__NEXT_DATA__").html() || "{}");
+        if (json){
+            const props = json.props;
+            if (props){
+                const pageProps = props.pageProps;
+                if (pageProps){
+                    const series = pageProps.series;
+                    if (series && series.chapters && (series.chapters.length || 0) > 0){
+                        for (let i = 0; i < series.chapters.length; i++) {
+                            const chapter = series.chapters[i];
+                            if (chapter.number){
+                            chapters.push(createChapter({
+                                chapNum: chapter.number,
+                                id: String(chapter.number),
+                                langCode: LanguageCode.ENGLISH,
+                                mangaId: mangaId,
+                                name: chapter.title,
+                                group: (chapter.groups || []).join(", ")
+                            }))}
+                        }
+                        if (chapters.length > 0){
+                        return chapters;
+                        }
+                    }
+                }
+            }
+        }
+        return this.parseChapterListFallback($, mangaId);
+    }
+
+    parseChapterListFallback($: CheerioStatic, mangaId: string) {
         const chapters: Chapter[] = [];
         $('a[class^="chaptertile_element"]').map((index, element) => {
             const chapNumString = $("p", element).first().text().replace("Chapter ", "")
@@ -91,7 +123,63 @@ export class CatMangaParser {
         return chapters
     }
 
-    parseManga($: CheerioStatic, mangaId: string) {
+    parseManga($: CheerioStatic, mangaId: string){
+        const json = JSON.parse($("script#__NEXT_DATA__").html() || "{}");
+        if (json){
+            const props = json.props;
+            if (props){
+                const pageProps = props.pageProps;
+                if (pageProps){
+                    const series = pageProps.series;
+                    if (series && series.genres && (series.genres.length || 0) > 0 && series.title && series.decription && series.status && series.cover_art && series.conver_art.source){
+                        let titles = [series.title]
+                        const covers = [];
+                        const tags = []
+                        if (series.alt_titles){
+                            titles = titles.concat(series.alt_titles)
+                        }
+                        if (series.all_covers){
+                            for (let i = 0; i < series.all_covers.length; i++) {
+                                const cover = series.all_covers[i];
+                                covers.push(`https://images.catmanga.org${cover.source || ""}`)
+                            }
+                        }
+                        let status;
+                        if ((series.status || "").toLowerCase().includes("ongoing")){
+                            status = MangaStatus.ONGOING;
+                        } else {
+                            status = MangaStatus.COMPLETED;
+                        }
+                        for (let i = 0; i < series.genres.length; i++) {
+                            const tag = series.genres[i];
+                            tags.push(createTag({
+                                id: tag,
+                                label: tag
+                            }))
+                        }
+                        return createManga({
+                            author: (series.authors || []).join(", "),
+                            covers: covers,
+                            desc: series.description,
+                            id: mangaId,
+                            image: series.cover_art.source,
+                            rating: 0,
+                            status: status,
+                            tags: [createTagSection({
+                                id: "genres",
+                                label: "Genres",
+                                tags: tags
+                            })],
+                            titles: titles
+                        })
+                    }
+                }
+            }
+        }
+        return this.parseMangaFallback($, mangaId);
+    }
+
+    parseMangaFallback($: CheerioStatic, mangaId: string) {
         const tags: Tag[] = [];
         $('div[class^="series_tags"] p').map((index, element) => {
             const text = $(element).text().trim();
