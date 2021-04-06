@@ -15,7 +15,7 @@ const BASE = "https://catmanga.org"
 
 export const CatMangaInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.0",
+    version: "1.0.1",
     name: "CatManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -38,7 +38,7 @@ export class CatManga extends Source {
         sectionCallback(createHomeSection({
             id: "featured",
             title: "Featured",
-            items: this.parser.parseFeatured($)
+            items: this.parser.parseFeatured($, BASE)
         }))
         sectionCallback(createHomeSection({
             id: "latest",

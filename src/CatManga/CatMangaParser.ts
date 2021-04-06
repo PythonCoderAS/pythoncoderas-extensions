@@ -27,10 +27,10 @@ export class CatMangaParser {
         return mangaTiles;
     }
 
-    parseFeatured($: CheerioStatic){
+    parseFeatured($: CheerioStatic, base: string){
         const seen: string[] = [];
         const mangaTiles: MangaTile[] = [];
-        $("ul.slider").map((index, element) => {
+        $("ul.slider li.slide").map((index, element) => {
             const link = $("a", element);
             const linkId = link.attr("href")
             if (linkId){
@@ -42,7 +42,7 @@ export class CatMangaParser {
                         title: createIconText({
                             text: $("h1", element).first().text().trim()
                         }),
-                        image: $("img", element).attr("src") || "",
+                        image: base + $("img", element).attr("src") || "",
                         primaryText: createIconText({
                             text: $("div p", $("a", element).parent()).first().text().trim()
                         })
@@ -61,13 +61,18 @@ export class CatMangaParser {
     parseChapterList($: CheerioStatic, mangaId: string) {
         const chapters: Chapter[] = [];
         $('a[class^="chaptertile_element"]').map((index, element) => {
-            const chapNum = Number($("p", element).first().text().replace("Chapter ", ""));
+            const chapNumString = $("p", element).first().text().replace("Chapter ", "")
+            const chapNum = Number(chapNumString) || 0;
+            let title: string | null = null;
+            if (chapNum === 0){
+                title = chapNumString
+            }
             const data: Chapter = {
                 chapNum: chapNum,
                 id: String(chapNum),
                 langCode: LanguageCode.ENGLISH,
                 mangaId: mangaId,
-                name: $("p", element).last().text().trim()
+                name: title || $("p", element).last().text().trim()
             };
             chapters.push(createChapter(data));
         })
