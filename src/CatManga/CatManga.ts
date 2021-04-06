@@ -14,7 +14,7 @@ import {CatMangaParser} from "./CatMangaParser";
 const BASE = "https://catmanga.org"
 
 export const CatMangaInfo: SourceInfo = {
-    icon: "icon.svg",
+    icon: "icon.png",
     version: "1.0.0",
     name: "CatManga",
     author: "PythonCoderAS",
