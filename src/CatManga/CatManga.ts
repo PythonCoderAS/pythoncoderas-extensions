@@ -15,7 +15,7 @@ const BASE = "https://catmanga.org"
 
 export const CatMangaInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.1",
+    version: "1.0.2",
     name: "CatManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",

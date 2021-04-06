@@ -55,7 +55,19 @@ export class CatMangaParser {
 
     parsePages($: CheerioStatic): string[] {
         const json = JSON.parse($("script#__NEXT_DATA__").html() || "{}");
-        return json.props.pageProps.pages;
+        if (json){
+            const props = json.props;
+            if (props){
+                const pageProps = props.pageProps;
+                if (pageProps){
+                    const pages = pageProps.pages;
+                    if (pages){
+                        return pages;
+                    }
+                }
+            }
+        }
+        return [];
     }
 
     parseChapterList($: CheerioStatic, mangaId: string) {
