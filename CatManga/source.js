@@ -341,7 +341,7 @@ const CatMangaParser_1 = require("./CatMangaParser");
 const BASE = "https://catmanga.org";
 exports.CatMangaInfo = {
     icon: "icon.png",
-    version: "1.0.0",
+    version: "1.0.1",
     name: "CatManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -364,7 +364,7 @@ class CatManga extends paperback_extensions_common_1.Source {
             sectionCallback(createHomeSection({
                 id: "featured",
                 title: "Featured",
-                items: this.parser.parseFeatured($)
+                items: this.parser.parseFeatured($, BASE)
             }));
             sectionCallback(createHomeSection({
                 id: "latest",
@@ -503,10 +503,10 @@ class CatMangaParser {
         });
         return mangaTiles;
     }
-    parseFeatured($) {
+    parseFeatured($, base) {
         const seen = [];
         const mangaTiles = [];
-        $("ul.slider").map((index, element) => {
+        $("ul.slider li.slide").map((index, element) => {
             const link = $("a", element);
             const linkId = link.attr("href");
             if (linkId) {
@@ -518,7 +518,7 @@ class CatMangaParser {
                         title: createIconText({
                             text: $("h1", element).first().text().trim()
                         }),
-                        image: $("img", element).attr("src") || "",
+                        image: base + $("img", element).attr("src") || "",
                         primaryText: createIconText({
                             text: $("div p", $("a", element).parent()).first().text().trim()
                         })
@@ -535,13 +535,18 @@ class CatMangaParser {
     parseChapterList($, mangaId) {
         const chapters = [];
         $('a[class^="chaptertile_element"]').map((index, element) => {
-            const chapNum = Number($("p", element).first().text().replace("Chapter ", ""));
+            const chapNumString = $("p", element).first().text().replace("Chapter ", "");
+            const chapNum = Number(chapNumString) || 0;
+            let title = null;
+            if (chapNum === 0) {
+                title = chapNumString;
+            }
             const data = {
                 chapNum: chapNum,
                 id: String(chapNum),
                 langCode: paperback_extensions_common_1.LanguageCode.ENGLISH,
                 mangaId: mangaId,
-                name: $("p", element).last().text().trim()
+                name: title || $("p", element).last().text().trim()
             };
             chapters.push(createChapter(data));
         });
