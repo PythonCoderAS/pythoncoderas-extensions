@@ -341,7 +341,7 @@ const CatMangaParser_1 = require("./CatMangaParser");
 const BASE = "https://catmanga.org";
 exports.CatMangaInfo = {
     icon: "icon.png",
-    version: "1.1.0",
+    version: "1.2.0",
     name: "CatManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -456,17 +456,20 @@ class CatManga extends paperback_extensions_common_1.Source {
     }
     filterUpdatedManga(mangaUpdatesFoundCallback, time, ids) {
         return __awaiter(this, void 0, void 0, function* () {
-            const tiles = this.getLatest(yield this.getHomePageData());
-            const idsFound = [];
+            // TODO: Wait for upload times to be shown.
+            /*
+            const tiles: MangaTile[] = this.getLatest(await this.getHomePageData());
+            const idsFound: string[] = [];
             for (let i = 0; i < tiles.length; i++) {
                 const id = tiles[i].id;
-                if (ids.includes(id)) {
-                    idsFound.push(id);
+                if (ids.includes(id)){
+                    idsFound.push(id)
                 }
             }
             mangaUpdatesFoundCallback(createMangaUpdates({
                 ids: idsFound
             }));
+            */
         });
     }
 }
