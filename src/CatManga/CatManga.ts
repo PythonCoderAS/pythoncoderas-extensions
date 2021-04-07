@@ -15,7 +15,7 @@ const BASE = "https://catmanga.org"
 
 export const CatMangaInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.1.0",
+    version: "1.2.0",
     name: "CatManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -124,8 +124,9 @@ export class CatManga extends Source {
         });
     }
 
-
     async filterUpdatedManga(mangaUpdatesFoundCallback: (updates: MangaUpdates) => void, time: Date, ids: string[]): Promise<void> {
+        // TODO: Wait for upload times to be shown.
+        /*
         const tiles: MangaTile[] = this.getLatest(await this.getHomePageData());
         const idsFound: string[] = [];
         for (let i = 0; i < tiles.length; i++) {
@@ -137,5 +138,6 @@ export class CatManga extends Source {
         mangaUpdatesFoundCallback(createMangaUpdates({
             ids: idsFound
         }));
+        */
     }
 }
