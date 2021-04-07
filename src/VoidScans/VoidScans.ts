@@ -15,7 +15,7 @@ const BASE = "https://voidscans.net"
 
 export const VoidScansInfo: SourceInfo = {
     icon: "icon.svg",
-    version: "1.2.1",
+    version: "1.3.0",
     name: "VoidScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -53,25 +53,14 @@ export class VoidScans extends Source {
         });
     }
 
-    async getChapterPage(mangaId: string, chapterId: string, page: number = 1): Promise<string | null>{
+    async getChapterDetails(mangaId: string, chapterId: string): Promise<ChapterDetails> {
         const options: Request = createRequestObject({
-            url: `${BASE}/read/${mangaId}/${chapterId}/${page}`,
+            url: `${BASE}/read/${mangaId}/${chapterId}`,
             method: 'GET'
         });
         let response = await this.requestManager.schedule(options, 1);
         let $ = this.cheerio.load(response.data);
-        return this.parser.parsePage($)
-    }
-
-    async getChapterDetails(mangaId: string, chapterId: string): Promise<ChapterDetails> {
-        const pages: string[] = [];
-        let page = await this.getChapterPage(mangaId, chapterId);
-        let num = 2;
-        while (page && !pages.includes(page)){
-            pages.push(page)
-            page = await this.getChapterPage(mangaId, chapterId, num);
-            num++;
-        }
+        const pages = this.parser.parsePages($)
         return createChapterDetails({
             id: chapterId,
             longStrip: true,
@@ -119,8 +108,14 @@ export class VoidScans extends Source {
 
 
     async filterUpdatedManga(mangaUpdatesFoundCallback: (updates: MangaUpdates) => void, time: Date, ids: string[]): Promise<void> {
+        const options: Request = createRequestObject({
+            url: `${BASE}`,
+            method: 'GET'
+        });
+        let response = await this.requestManager.schedule(options, 1);
+        let $ = this.cheerio.load(response.data);
         mangaUpdatesFoundCallback(createMangaUpdates({
-            ids: ids
+            ids: this.parser.parseUpdatedManga($, BASE, time)
         }));
     }
 }
