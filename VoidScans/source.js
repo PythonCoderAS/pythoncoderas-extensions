@@ -341,7 +341,7 @@ const VoidScansParser_1 = require("./VoidScansParser");
 const BASE = "https://voidscans.net";
 exports.VoidScansInfo = {
     icon: "icon.svg",
-    version: "1.2.1",
+    version: "1.3.0",
     name: "VoidScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -380,27 +380,15 @@ class VoidScans extends paperback_extensions_common_1.Source {
             });
         });
     }
-    getChapterPage(mangaId, chapterId, page = 1) {
+    getChapterDetails(mangaId, chapterId) {
         return __awaiter(this, void 0, void 0, function* () {
             const options = createRequestObject({
-                url: `${BASE}/read/${mangaId}/${chapterId}/${page}`,
+                url: `${BASE}/read/${mangaId}/${chapterId}`,
                 method: 'GET'
             });
             let response = yield this.requestManager.schedule(options, 1);
             let $ = this.cheerio.load(response.data);
-            return this.parser.parsePage($);
-        });
-    }
-    getChapterDetails(mangaId, chapterId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const pages = [];
-            let page = yield this.getChapterPage(mangaId, chapterId);
-            let num = 2;
-            while (page && !pages.includes(page)) {
-                pages.push(page);
-                page = yield this.getChapterPage(mangaId, chapterId, num);
-                num++;
-            }
+            const pages = this.parser.parsePages($);
             return createChapterDetails({
                 id: chapterId,
                 longStrip: true,
@@ -452,8 +440,14 @@ class VoidScans extends paperback_extensions_common_1.Source {
     }
     filterUpdatedManga(mangaUpdatesFoundCallback, time, ids) {
         return __awaiter(this, void 0, void 0, function* () {
+            const options = createRequestObject({
+                url: `${BASE}`,
+                method: 'GET'
+            });
+            let response = yield this.requestManager.schedule(options, 1);
+            let $ = this.cheerio.load(response.data);
             mangaUpdatesFoundCallback(createMangaUpdates({
-                ids: ids
+                ids: this.parser.parseUpdatedManga($, BASE, time)
             }));
         });
     }
@@ -475,7 +469,7 @@ class VoidScansParser {
                 mangaTiles.push(createMangaTile({
                     id: linkId.replace(`${base}/library/`, ""),
                     title: createIconText({
-                        text: ""
+                        text: $("h2", element).text()
                     }),
                     image: $("img", element).attr("src") || "",
                     primaryText: createIconText({
@@ -486,8 +480,49 @@ class VoidScansParser {
         });
         return mangaTiles;
     }
-    parsePage($) {
-        return $("img").attr("src") || null;
+    parseUpdatedManga($, base, dateToCheck) {
+        const ids = [];
+        $("div.col").map((index, element) => {
+            const link = $("a.btn", element);
+            const linkId = link.attr("href");
+            if (linkId) {
+                const dateUpdated = $("small.text-muted").text();
+                const parts = dateUpdated.split(" ");
+                if (parts.length === 2) {
+                    const date = parts[0];
+                    const dateParts = date.split("/");
+                    let day = 0, month = 0, year = 0;
+                    if (dateParts.length === 3) {
+                        year = Number(dateParts[0]);
+                        month = Number(dateParts[1]) - 1;
+                        day = Number(dateParts[2]);
+                    }
+                    const time = parts[1];
+                    const timeParts = time.split("/");
+                    let second = 0, minute = 0, hour = 0;
+                    if (timeParts.length === 3) {
+                        hour = Number(timeParts[0]);
+                        minute = Number(timeParts[1]);
+                        second = Number(timeParts[2]);
+                        const dateObj = new Date(Date.UTC(year, month, day, hour, minute, second));
+                        if (dateObj > dateToCheck) {
+                            ids.push(linkId.replace(`${base}/library/`, ""));
+                        }
+                    }
+                }
+            }
+        });
+        return ids;
+    }
+    parsePages($) {
+        const pages = [];
+        $("div[data-image]").map((index, element) => {
+            const url = element.attribs["data-image"];
+            if (url) {
+                pages.push(url);
+            }
+        });
+        return pages;
     }
     parseChapterList($, mangaId) {
         const chapters = [];
