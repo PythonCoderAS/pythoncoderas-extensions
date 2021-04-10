@@ -6,4 +6,5 @@ Misc. sources for scanlators and aggregators.
 * https://glitchycomics.com/
 * https://www.novelcool.com/
 * https://rainofsnow.com/
+* https://raw.senmanga.com/
 * https://voidscans.net/
