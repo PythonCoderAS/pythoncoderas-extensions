@@ -341,7 +341,7 @@ const SenMangaParser_1 = require("./SenMangaParser");
 const BASE = "https://raw.senmanga.com";
 exports.SenMangaInfo = {
     icon: "icon.png",
-    version: "1.0.0",
+    version: "1.0.1",
     name: "SenManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -411,8 +411,11 @@ class SenManga extends paperback_extensions_common_1.Source {
     }
     getPagedResults(url, metadata) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (typeof metadata !== "object") {
+            if (typeof metadata !== "object" && metadata !== null) {
                 metadata = { page: metadata };
+            }
+            else if (metadata === null) {
+                metadata = {};
             }
             let page = 1;
             if (metadata.page) {
