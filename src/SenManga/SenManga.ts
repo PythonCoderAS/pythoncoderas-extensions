@@ -17,7 +17,7 @@ const BASE = "https://raw.senmanga.com"
 
 export const SenMangaInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.0",
+    version: "1.0.1",
     name: "SenManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -88,8 +88,10 @@ export class SenManga extends Source {
     }
 
     private async getPagedResults(url: string, metadata: { page?: number | null, [key: string]: any }){
-        if (typeof metadata !== "object"){
-            metadata = {page: metadata}
+        if (typeof metadata !== "object" && metadata !== null){
+            metadata = {page: metadata};
+        } else if (metadata === null){
+            metadata = {};
         }
         let page = 1;
         if (metadata.page){
