@@ -15,7 +15,7 @@ const BASE = "https://rainofsnow.com"
 
 export const RainOfSnowInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.2.0",
+    version: "1.3.0",
     name: "RainOfSnow",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -34,30 +34,52 @@ export class RainOfSnow extends Source {
     }
 
     async getHomePageSections(sectionCallback: (section: HomeSection) => void): Promise<void> {
+        const options: Request = createRequestObject({
+            url: `${BASE}`,
+            method: 'GET'
+        });
+        let response = await this.requestManager.schedule(options, 1);
+        let $ = this.cheerio.load(response.data);
+        let tiles: MangaTile[] = this.parser.parseMangaList($, BASE, $($("div.row").toArray()[2]));
         sectionCallback(createHomeSection({
-            id: "1",
-            items: (await this.getWebsiteMangaDirectory(null)).results,
-            title: "All Comics"
+            id: "comics",
+            items: tiles,
+            title: "Popular Comics",
+            view_more: true
         }));
     }
 
-    async doGetWebsiteMangaDirectory(page: number = 1){
+    async getWebsiteMangaDirectory(metadata: any): Promise<PagedResults> {
+        if (typeof metadata !== "object" && metadata !== null){
+            metadata = {page: metadata};
+        } else if (metadata === null){
+            metadata = {};
+        }
+        let page = 1;
+        if (metadata.page){
+            page = metadata.page;
+        }
+        if (page === null){
+            return createPagedResults({results: []});
+        }
         const options: Request = createRequestObject({
-            url: `${BASE}/comics-library/page/${page}`,
+            url: `${BASE}/comics/page/${page}`,
             method: 'GET'
         });
         let response = await this.requestManager.schedule(options, 1);
         let $ = this.cheerio.load(response.data);
         let tiles: MangaTile[] = this.parser.parseMangaList($, BASE);
-        if ($("a.next").length !== 0){
-            tiles = tiles.concat(await this.doGetWebsiteMangaDirectory(page+1))
+        let newPage: number | null = page + 1;
+        if ($("a.next").length === 0){
+            newPage = null;
         }
-        return tiles;
-    }
-
-    async getWebsiteMangaDirectory(metadata: any): Promise<PagedResults> {
+        metadata.page = newPage
+        if (newPage === null){
+            return createPagedResults({results: []});
+        }
         return createPagedResults({
-            results: await this.doGetWebsiteMangaDirectory()
+            results: tiles,
+            metadata: metadata
         });
     }
 
@@ -97,9 +119,9 @@ export class RainOfSnow extends Source {
     }
 
     async searchRequest(query: SearchRequest, metadata: any): Promise<PagedResults> {
-        let url = `${BASE}/?serchfor=comics`
+        let url = `${BASE}/`
         if (query.title){
-            url += `&s=${query.title}`
+            url += `?s=${query.title}`
         }
         const options: Request = createRequestObject({
             url: url,
@@ -108,7 +130,7 @@ export class RainOfSnow extends Source {
         let response = await this.requestManager.schedule(options, 1);
         let $ = this.cheerio.load(response.data);
         return createPagedResults({
-            results: this.parser.parseSearchResult($, BASE)
+            results: this.parser.parseMangaList($, BASE)
         });
     }
 

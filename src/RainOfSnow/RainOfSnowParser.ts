@@ -2,13 +2,16 @@ import {Chapter, LanguageCode, Manga, MangaStatus, MangaTile, Tag} from "paperba
 
 export class RainOfSnowParser {
 
-    parseMangaList($: CheerioStatic, base: string) {
+    parseMangaList($: CheerioStatic, base: string, filterElement: Cheerio | null = null) {
+        if (filterElement === null){
+            filterElement = $.root()
+        }
         const mangaTiles: MangaTile[] = [];
-        $("ul.boxhover1 li").map(((index, element) => {
-            const link = $("h4 a", element).first();
+        $("div.col-xs-6.col-md-3.col-lg-2", filterElement).map(((index, element) => {
+            const link = $("h3 a", element).first();
             const linkId = link.attr("href");
             const imgSrc = $("a img", element).first().attr("src");
-            if (linkId) {
+            if (linkId && linkId.includes("comic")) {
                 mangaTiles.push(createMangaTile({
                     id: linkId.replace(`${base}/comic/`, "").slice(0, -1),
                     image: imgSrc || "",
@@ -33,16 +36,18 @@ export class RainOfSnowParser {
 
     parseChapterList($: CheerioStatic, mangaId: string, base: string) {
         const chapters: Chapter[] = [];
-        $("ul.chapter1 li").map((index, element) => {
+        $("div#chapter li").map((index, element) => {
             const link = $("a", element).first();
             const linkId = link.attr("href");
             if (linkId) {
+                const chapParts = link.text().split(".");
                 chapters.push(createChapter({
-                    chapNum: Number(link.text().split(".")[0]),
+                    chapNum: Number(chapParts[0]),
                     id: linkId.replace(base + "/comic_chapters/", ""),
                     langCode: LanguageCode.ENGLISH,
                     mangaId: mangaId,
                     time: new Date($("small", element).first().text()),
+                    name: chapParts[1] || undefined
                 }))
             }
         })
@@ -56,14 +61,9 @@ export class RainOfSnowParser {
     }
 
     parseManga($: CheerioStatic, mangaId: string, base: string) {
-        const items = $("ul.rat1 li");
         const tagList: Tag[] = [];
-        let summary: string = ""
-        $("div.summery div.text p").map(((index, element) => {
-            summary += $(element).text() + "\n"
-        }))
-        summary = summary.trim();
-        $("a[rel=\"tag\"]", items).map(((index, element) => {
+        const summary: string = $("div#synop").text().replace(/\s{2,}/, "").trim();
+        $("a[rel=\"tag\"]", $("ul.vbtcolor1").first()).map(((index, element) => {
             if ("attribs" in element) {
                 tagList.push(createTag({
                     id: element.attribs["href"].replace(`${base}/tag/`, "").slice(0, -1),
@@ -73,13 +73,13 @@ export class RainOfSnowParser {
         }))
         const chapterList = this.parseChapterList($, mangaId, base)
         const mangaObj: Manga = {
-            author: $(".n2", items.first()).text(),
+            author: $("small", $("ul.vbtcolor1 li").first()).text().trim(),
             desc: summary,
             id: mangaId,
-            image: $("div.imgbox img").first().attr("src") || "",
+            image: $("img", $("div.container div.row").first()).first().attr("src") || "",
             rating: 0,
             status: MangaStatus.ONGOING,
-            titles: [$("div.container h3").first().text()],
+            titles: [$("div.text h2").first().text()],
             tags: [createTagSection({
                 id: "1",
                 label: "1",
