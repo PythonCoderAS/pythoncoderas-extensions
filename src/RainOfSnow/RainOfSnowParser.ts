@@ -2,6 +2,12 @@ import {Chapter, LanguageCode, Manga, MangaStatus, MangaTile, Tag} from "paperba
 
 export class RainOfSnowParser {
 
+    decodeHTMLEntity(str: string): string {
+        return str.replace(/&#(\d+);/g, function (match, dec) {
+            return String.fromCharCode(dec);
+        })
+    }
+
     parseMangaList($: CheerioStatic, base: string, filterElement: Cheerio | null = null) {
         if (filterElement === null){
             filterElement = $.root()
@@ -73,13 +79,13 @@ export class RainOfSnowParser {
         }))
         const chapterList = this.parseChapterList($, mangaId, base)
         const mangaObj: Manga = {
-            author: $("small", $("ul.vbtcolor1 li").first()).text().trim(),
+            author: this.decodeHTMLEntity($("small", $("ul.vbtcolor1 li").first()).text().trim()),
             desc: summary,
             id: mangaId,
             image: $("img", $("div.container div.row").first()).first().attr("src") || "",
             rating: 0,
             status: MangaStatus.ONGOING,
-            titles: [$("div.text h2").first().text()],
+            titles: [this.decodeHTMLEntity($("div.text h2").first().text())],
             tags: [createTagSection({
                 id: "1",
                 label: "1",

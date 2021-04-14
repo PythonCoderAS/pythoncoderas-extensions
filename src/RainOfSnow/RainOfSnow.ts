@@ -15,7 +15,7 @@ const BASE = "https://rainofsnow.com"
 
 export const RainOfSnowInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.3.1",
+    version: "1.3.2",
     name: "RainOfSnow",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
