@@ -15,7 +15,7 @@ const BASE = "https://rainofsnow.com"
 
 export const RainOfSnowInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.3.0",
+    version: "1.3.1",
     name: "RainOfSnow",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -138,5 +138,10 @@ export class RainOfSnow extends Source {
         mangaUpdatesFoundCallback(createMangaUpdates({
             ids: ids
         }));
+    }
+
+
+    getViewMoreItems(homepageSectionId: string, metadata: any): Promise<PagedResults> {
+        return this.getWebsiteMangaDirectory(metadata);
     }
 }
