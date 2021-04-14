@@ -341,7 +341,7 @@ const RainOfSnowParser_1 = require("./RainOfSnowParser");
 const BASE = "https://rainofsnow.com";
 exports.RainOfSnowInfo = {
     icon: "icon.png",
-    version: "1.2.0",
+    version: "1.3.0",
     name: "RainOfSnow",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -360,32 +360,54 @@ class RainOfSnow extends paperback_extensions_common_1.Source {
     }
     getHomePageSections(sectionCallback) {
         return __awaiter(this, void 0, void 0, function* () {
+            const options = createRequestObject({
+                url: `${BASE}`,
+                method: 'GET'
+            });
+            let response = yield this.requestManager.schedule(options, 1);
+            let $ = this.cheerio.load(response.data);
+            let tiles = this.parser.parseMangaList($, BASE, $($("div.row").toArray()[2]));
             sectionCallback(createHomeSection({
-                id: "1",
-                items: (yield this.getWebsiteMangaDirectory(null)).results,
-                title: "All Comics"
+                id: "comics",
+                items: tiles,
+                title: "Popular Comics",
+                view_more: true
             }));
         });
     }
-    doGetWebsiteMangaDirectory(page = 1) {
+    getWebsiteMangaDirectory(metadata) {
         return __awaiter(this, void 0, void 0, function* () {
+            if (typeof metadata !== "object" && metadata !== null) {
+                metadata = { page: metadata };
+            }
+            else if (metadata === null) {
+                metadata = {};
+            }
+            let page = 1;
+            if (metadata.page) {
+                page = metadata.page;
+            }
+            if (page === null) {
+                return createPagedResults({ results: [] });
+            }
             const options = createRequestObject({
-                url: `${BASE}/comics-library/page/${page}`,
+                url: `${BASE}/comics/page/${page}`,
                 method: 'GET'
             });
             let response = yield this.requestManager.schedule(options, 1);
             let $ = this.cheerio.load(response.data);
             let tiles = this.parser.parseMangaList($, BASE);
-            if ($("a.next").length !== 0) {
-                tiles = tiles.concat(yield this.doGetWebsiteMangaDirectory(page + 1));
+            let newPage = page + 1;
+            if ($("a.next").length === 0) {
+                newPage = null;
             }
-            return tiles;
-        });
-    }
-    getWebsiteMangaDirectory(metadata) {
-        return __awaiter(this, void 0, void 0, function* () {
+            metadata.page = newPage;
+            if (newPage === null) {
+                return createPagedResults({ results: [] });
+            }
             return createPagedResults({
-                results: yield this.doGetWebsiteMangaDirectory()
+                results: tiles,
+                metadata: metadata
             });
         });
     }
@@ -429,9 +451,9 @@ class RainOfSnow extends paperback_extensions_common_1.Source {
     }
     searchRequest(query, metadata) {
         return __awaiter(this, void 0, void 0, function* () {
-            let url = `${BASE}/?serchfor=comics`;
+            let url = `${BASE}/`;
             if (query.title) {
-                url += `&s=${query.title}`;
+                url += `?s=${query.title}`;
             }
             const options = createRequestObject({
                 url: url,
@@ -440,7 +462,7 @@ class RainOfSnow extends paperback_extensions_common_1.Source {
             let response = yield this.requestManager.schedule(options, 1);
             let $ = this.cheerio.load(response.data);
             return createPagedResults({
-                results: this.parser.parseSearchResult($, BASE)
+                results: this.parser.parseMangaList($, BASE)
             });
         });
     }
@@ -460,13 +482,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RainOfSnowParser = void 0;
 const paperback_extensions_common_1 = require("paperback-extensions-common");
 class RainOfSnowParser {
-    parseMangaList($, base) {
+    parseMangaList($, base, filterElement = null) {
+        if (filterElement === null) {
+            filterElement = $.root();
+        }
         const mangaTiles = [];
-        $("ul.boxhover1 li").map(((index, element) => {
-            const link = $("h4 a", element).first();
+        $("div.col-xs-6.col-md-3.col-lg-2", filterElement).map(((index, element) => {
+            const link = $("h3 a", element).first();
             const linkId = link.attr("href");
             const imgSrc = $("a img", element).first().attr("src");
-            if (linkId) {
+            if (linkId && linkId.includes("comic")) {
                 mangaTiles.push(createMangaTile({
                     id: linkId.replace(`${base}/comic/`, "").slice(0, -1),
                     image: imgSrc || "",
@@ -489,16 +514,18 @@ class RainOfSnowParser {
     }
     parseChapterList($, mangaId, base) {
         const chapters = [];
-        $("ul.chapter1 li").map((index, element) => {
+        $("div#chapter li").map((index, element) => {
             const link = $("a", element).first();
             const linkId = link.attr("href");
             if (linkId) {
+                const chapParts = link.text().split(".");
                 chapters.push(createChapter({
-                    chapNum: Number(link.text().split(".")[0]),
+                    chapNum: Number(chapParts[0]),
                     id: linkId.replace(base + "/comic_chapters/", ""),
                     langCode: paperback_extensions_common_1.LanguageCode.ENGLISH,
                     mangaId: mangaId,
                     time: new Date($("small", element).first().text()),
+                    name: chapParts[1] || undefined
                 }));
             }
         });
@@ -510,14 +537,9 @@ class RainOfSnowParser {
         }).join(' ');
     }
     parseManga($, mangaId, base) {
-        const items = $("ul.rat1 li");
         const tagList = [];
-        let summary = "";
-        $("div.summery div.text p").map(((index, element) => {
-            summary += $(element).text() + "\n";
-        }));
-        summary = summary.trim();
-        $("a[rel=\"tag\"]", items).map(((index, element) => {
+        const summary = $("div#synop").text().replace(/\s{2,}/, "").trim();
+        $("a[rel=\"tag\"]", $("ul.vbtcolor1").first()).map(((index, element) => {
             if ("attribs" in element) {
                 tagList.push(createTag({
                     id: element.attribs["href"].replace(`${base}/tag/`, "").slice(0, -1),
@@ -527,13 +549,13 @@ class RainOfSnowParser {
         }));
         const chapterList = this.parseChapterList($, mangaId, base);
         const mangaObj = {
-            author: $(".n2", items.first()).text(),
+            author: $("small", $("ul.vbtcolor1 li").first()).text().trim(),
             desc: summary,
             id: mangaId,
-            image: $("div.imgbox img").first().attr("src") || "",
+            image: $("img", $("div.container div.row").first()).first().attr("src") || "",
             rating: 0,
             status: paperback_extensions_common_1.MangaStatus.ONGOING,
-            titles: [$("div.container h3").first().text()],
+            titles: [$("div.text h2").first().text()],
             tags: [createTagSection({
                     id: "1",
                     label: "1",
