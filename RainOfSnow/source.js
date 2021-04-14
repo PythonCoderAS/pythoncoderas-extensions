@@ -341,7 +341,7 @@ const RainOfSnowParser_1 = require("./RainOfSnowParser");
 const BASE = "https://rainofsnow.com";
 exports.RainOfSnowInfo = {
     icon: "icon.png",
-    version: "1.3.0",
+    version: "1.3.1",
     name: "RainOfSnow",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -472,6 +472,9 @@ class RainOfSnow extends paperback_extensions_common_1.Source {
                 ids: ids
             }));
         });
+    }
+    getViewMoreItems(homepageSectionId, metadata) {
+        return this.getWebsiteMangaDirectory(metadata);
     }
 }
 exports.RainOfSnow = RainOfSnow;
