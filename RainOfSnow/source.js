@@ -341,7 +341,7 @@ const RainOfSnowParser_1 = require("./RainOfSnowParser");
 const BASE = "https://rainofsnow.com";
 exports.RainOfSnowInfo = {
     icon: "icon.png",
-    version: "1.3.1",
+    version: "1.3.2",
     name: "RainOfSnow",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -485,6 +485,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RainOfSnowParser = void 0;
 const paperback_extensions_common_1 = require("paperback-extensions-common");
 class RainOfSnowParser {
+    decodeHTMLEntity(str) {
+        return str.replace(/&#(\d+);/g, function (match, dec) {
+            return String.fromCharCode(dec);
+        });
+    }
     parseMangaList($, base, filterElement = null) {
         if (filterElement === null) {
             filterElement = $.root();
@@ -552,13 +557,13 @@ class RainOfSnowParser {
         }));
         const chapterList = this.parseChapterList($, mangaId, base);
         const mangaObj = {
-            author: $("small", $("ul.vbtcolor1 li").first()).text().trim(),
+            author: this.decodeHTMLEntity($("small", $("ul.vbtcolor1 li").first()).text().trim()),
             desc: summary,
             id: mangaId,
             image: $("img", $("div.container div.row").first()).first().attr("src") || "",
             rating: 0,
             status: paperback_extensions_common_1.MangaStatus.ONGOING,
-            titles: [$("div.text h2").first().text()],
+            titles: [this.decodeHTMLEntity($("div.text h2").first().text())],
             tags: [createTagSection({
                     id: "1",
                     label: "1",
