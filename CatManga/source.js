@@ -481,6 +481,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CatMangaParser = void 0;
 const paperback_extensions_common_1 = require("paperback-extensions-common");
 class CatMangaParser {
+    decodeHTMLEntity(str) {
+        return str.replace(/&#(\d+);/g, function (match, dec) {
+            return String.fromCharCode(dec);
+        });
+    }
     parseTileList($, className, className2 = null) {
         if (className2 === null) {
             className2 = className;
@@ -492,13 +497,13 @@ class CatMangaParser {
                 const tile = {
                     id: linkId.replace(`/series/`, "").split("/")[0],
                     title: createIconText({
-                        text: $("p", element).first().text().trim()
+                        text: this.decodeHTMLEntity($("p", element).first().text().trim())
                     }),
                     image: $("img", element).attr("src") || ""
                 };
                 if ($("p", element).length > 1) {
                     tile.primaryText = createIconText({
-                        text: $("p", element).last().text().trim()
+                        text: this.decodeHTMLEntity($("p", element).last().text().trim())
                     });
                 }
                 mangaTiles.push(createMangaTile(tile));
@@ -519,11 +524,11 @@ class CatMangaParser {
                     mangaTiles.push(createMangaTile({
                         id: id,
                         title: createIconText({
-                            text: $("h1", element).first().text().trim()
+                            text: this.decodeHTMLEntity($("h1", element).first().text().trim())
                         }),
                         image: base + $("img", element).attr("src") || "",
                         primaryText: createIconText({
-                            text: $("div p", $("a", element).parent()).first().text().trim()
+                            text: this.decodeHTMLEntity($("div p", $("a", element).parent()).first().text().trim())
                         })
                     }));
                 }
@@ -565,7 +570,7 @@ class CatMangaParser {
                                     id: String(chapter.number),
                                     langCode: paperback_extensions_common_1.LanguageCode.ENGLISH,
                                     mangaId: mangaId,
-                                    name: chapter.title,
+                                    name: this.decodeHTMLEntity(chapter.title),
                                     group: (chapter.groups || []).join(", ")
                                 }));
                             }
@@ -593,7 +598,7 @@ class CatMangaParser {
                 id: String(chapNum),
                 langCode: paperback_extensions_common_1.LanguageCode.ENGLISH,
                 mangaId: mangaId,
-                name: title || $("p", element).last().text().trim()
+                name: this.decodeHTMLEntity(title || $("p", element).last().text().trim())
             };
             chapters.push(createChapter(data));
         });
@@ -634,10 +639,16 @@ class CatMangaParser {
                                 label: tag
                             }));
                         }
+                        for (let i = 0; i < series.authors.length; i++) {
+                            series.authors[i] = this.decodeHTMLEntity(series.authors[i]);
+                        }
+                        for (let i = 0; i < titles.length; i++) {
+                            titles[i] = this.decodeHTMLEntity(titles[i]);
+                        }
                         return createManga({
                             author: (series.authors || []).join(", "),
                             covers: covers,
-                            desc: series.description,
+                            desc: this.decodeHTMLEntity(series.description),
                             id: mangaId,
                             image: series.cover_art.source,
                             rating: 0,
@@ -672,12 +683,12 @@ class CatMangaParser {
             status = paperback_extensions_common_1.MangaStatus.COMPLETED;
         }
         const mangaObj = {
-            desc: $('div[class^="series_seriesDesc"]').first().text().trim(),
+            desc: this.decodeHTMLEntity($('div[class^="series_seriesDesc"]').first().text().trim()),
             id: mangaId,
             image: $("img").attr("src") || "",
             rating: 0,
             status: status,
-            titles: [$("h1").first().text()],
+            titles: [this.decodeHTMLEntity($("h1").first().text())],
             tags: [createTagSection({
                     id: "tags",
                     label: "Tags",
