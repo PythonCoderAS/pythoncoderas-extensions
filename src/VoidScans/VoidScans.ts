@@ -4,7 +4,7 @@ import {
     HomeSection,
     Manga, MangaTile, MangaUpdates,
     PagedResults,
-    Request,
+    Request, RequestManager,
     SearchRequest,
     Source,
     SourceInfo,
@@ -15,7 +15,7 @@ const BASE = "https://voidscans.net"
 
 export const VoidScansInfo: SourceInfo = {
     icon: "icon.svg",
-    version: "1.3.1",
+    version: "1.3.2",
     name: "VoidScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -28,6 +28,12 @@ export const VoidScansInfo: SourceInfo = {
 export class VoidScans extends Source {
 
     private readonly parser: VoidScansParser = new VoidScansParser();
+
+
+    readonly requestManager: RequestManager = createRequestManager({
+        requestsPerSecond: 5,
+        requestTimeout: 10000
+    });
 
     getMangaShareUrl(mangaId: string): string | null {
         return `${BASE}/library/${mangaId}`;

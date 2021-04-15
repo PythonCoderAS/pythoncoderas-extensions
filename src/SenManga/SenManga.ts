@@ -17,7 +17,7 @@ const BASE = "https://raw.senmanga.com"
 
 export const SenMangaInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.2",
+    version: "1.0.3",
     name: "SenManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -30,6 +30,7 @@ export const SenMangaInfo: SourceInfo = {
 export class SenManga extends Source {
 
     private readonly parser: SenMangaParser = new SenMangaParser();
+
 
     private readonly header: RequestHeaders = {
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"

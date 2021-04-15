@@ -4,7 +4,7 @@ import {
     HomeSection,
     Manga, MangaTile, MangaUpdates,
     PagedResults,
-    Request,
+    Request, RequestManager,
     SearchRequest,
     Source,
     SourceInfo,
@@ -15,7 +15,7 @@ const BASE = "https://rainofsnow.com"
 
 export const RainOfSnowInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.3.2",
+    version: "1.3.3",
     name: "RainOfSnow",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -28,6 +28,11 @@ export const RainOfSnowInfo: SourceInfo = {
 export class RainOfSnow extends Source {
 
     private readonly parser: RainOfSnowParser = new RainOfSnowParser();
+
+    readonly requestManager: RequestManager = createRequestManager({
+        requestsPerSecond: 5,
+        requestTimeout: 10000
+    });
 
     getMangaShareUrl(mangaId: string): string | null {
         return `${BASE}/comic/${mangaId}`;

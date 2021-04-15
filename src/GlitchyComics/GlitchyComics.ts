@@ -4,7 +4,7 @@ import {
     HomeSection,
     Manga, MangaUpdates,
     PagedResults,
-    Request,
+    Request, RequestManager,
     SearchRequest,
     Source,
     SourceInfo,
@@ -15,7 +15,7 @@ const BASE = "https://glitchycomics.com"
 
 export const GlitchyComicsInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.1.1",
+    version: "1.1.2",
     name: "GlitchyComics",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -28,6 +28,11 @@ export const GlitchyComicsInfo: SourceInfo = {
 export class GlitchyComics extends Source {
 
     private readonly parser: GlitchyComicsParser = new GlitchyComicsParser();
+
+    readonly requestManager: RequestManager = createRequestManager({
+        requestsPerSecond: 5,
+        requestTimeout: 10000
+    });
 
     getMangaShareUrl(mangaId: string): string | null {
         return `${BASE}/${mangaId}`;

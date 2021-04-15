@@ -4,7 +4,7 @@ import {
     HomeSection,
     Manga, MangaTile, MangaUpdates,
     PagedResults,
-    Request,
+    Request, RequestManager,
     SearchRequest,
     Source,
     SourceInfo,
@@ -15,7 +15,7 @@ const BASE = "https://catmanga.org"
 
 export const CatMangaInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.2.1",
+    version: "1.2.2",
     name: "CatManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -28,6 +28,11 @@ export const CatMangaInfo: SourceInfo = {
 export class CatManga extends Source {
 
     private readonly parser: CatMangaParser = new CatMangaParser();
+
+    readonly requestManager: RequestManager = createRequestManager({
+        requestsPerSecond: 5,
+        requestTimeout: 10000
+    });
 
     getMangaShareUrl(mangaId: string): string | null {
         return `${BASE}/series/${mangaId}`;
