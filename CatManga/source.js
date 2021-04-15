@@ -341,7 +341,7 @@ const CatMangaParser_1 = require("./CatMangaParser");
 const BASE = "https://catmanga.org";
 exports.CatMangaInfo = {
     icon: "icon.png",
-    version: "1.2.0",
+    version: "1.2.1",
     name: "CatManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
