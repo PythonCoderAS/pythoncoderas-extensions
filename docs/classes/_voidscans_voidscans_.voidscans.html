@@ -97,7 +97,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_voidscans_voidscans_.voidscans.html#cheerio" class="tsd-kind-icon">cheerio</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_voidscans_voidscans_.voidscans.html#parser" class="tsd-kind-icon">parser</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_voidscans_voidscans_.voidscans.html#requestmanager" class="tsd-kind-icon">request<wbr>Manager</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="_voidscans_voidscans_.voidscans.html#requestmanager" class="tsd-kind-icon">request<wbr>Manager</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -171,26 +171,20 @@
 					<div class="tsd-signature tsd-kind-icon">parser<span class="tsd-signature-symbol">:</span> <a href="_voidscans_voidscansparser_.voidscansparser.html" class="tsd-signature-type">VoidScansParser</a><span class="tsd-signature-symbol"> = new VoidScansParser()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/VoidScans/VoidScans.ts#L30">src/VoidScans/VoidScans.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/VoidScans/VoidScans.ts#L30">src/VoidScans/VoidScans.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 					<a name="requestmanager" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> request<wbr>Manager</h3>
-					<div class="tsd-signature tsd-kind-icon">request<wbr>Manager<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RequestManager</span></div>
+					<div class="tsd-signature tsd-kind-icon">request<wbr>Manager<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RequestManager</span><span class="tsd-signature-symbol"> = createRequestManager({requestsPerSecond: 5,requestTimeout: 10000})</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_catmanga_catmanga_.catmanga.html">CatManga</a>.<a href="_catmanga_catmanga_.catmanga.html#requestmanager">requestManager</a></p>
+						<p>Overrides Source.requestManager</p>
 						<ul>
-							<li>Defined in node_modules/paperback-extensions-common/dist/base/Source.d.ts:42</li>
+							<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/VoidScans/VoidScans.ts#L33">src/VoidScans/VoidScans.ts:33</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Manages the ratelimits and the number of requests that can be done per second
-							This is also used to fetch pages when a chapter is downloading</p>
-						</div>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -230,7 +224,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.filterUpdatedManga</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/VoidScans/VoidScans.ts#L110">src/VoidScans/VoidScans.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/VoidScans/VoidScans.ts#L116">src/VoidScans/VoidScans.ts:116</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -328,7 +322,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getChapterDetails</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/VoidScans/VoidScans.ts#L56">src/VoidScans/VoidScans.ts:56</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/VoidScans/VoidScans.ts#L62">src/VoidScans/VoidScans.ts:62</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -355,7 +349,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getChapters</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/VoidScans/VoidScans.ts#L72">src/VoidScans/VoidScans.ts:72</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/VoidScans/VoidScans.ts#L78">src/VoidScans/VoidScans.ts:78</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -405,7 +399,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getHomePageSections</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/VoidScans/VoidScans.ts#L36">src/VoidScans/VoidScans.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/VoidScans/VoidScans.ts#L42">src/VoidScans/VoidScans.ts:42</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -447,7 +441,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getMangaDetails</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/VoidScans/VoidScans.ts#L82">src/VoidScans/VoidScans.ts:82</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/VoidScans/VoidScans.ts#L88">src/VoidScans/VoidScans.ts:88</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -471,7 +465,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getMangaShareUrl</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/VoidScans/VoidScans.ts#L32">src/VoidScans/VoidScans.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/VoidScans/VoidScans.ts#L38">src/VoidScans/VoidScans.ts:38</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -564,7 +558,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getWebsiteMangaDirectory</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/VoidScans/VoidScans.ts#L44">src/VoidScans/VoidScans.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/VoidScans/VoidScans.ts#L50">src/VoidScans/VoidScans.ts:50</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -635,7 +629,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.searchRequest</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/VoidScans/VoidScans.ts#L92">src/VoidScans/VoidScans.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/VoidScans/VoidScans.ts#L98">src/VoidScans/VoidScans.ts:98</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -768,7 +762,7 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_voidscans_voidscans_.voidscans.html#parser" class="tsd-kind-icon">parser</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_voidscans_voidscans_.voidscans.html#requestmanager" class="tsd-kind-icon">request<wbr>Manager</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
@@ -842,17 +836,17 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>

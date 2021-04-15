@@ -341,7 +341,7 @@ const RainOfSnowParser_1 = require("./RainOfSnowParser");
 const BASE = "https://rainofsnow.com";
 exports.RainOfSnowInfo = {
     icon: "icon.png",
-    version: "1.3.2",
+    version: "1.3.3",
     name: "RainOfSnow",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -354,6 +354,10 @@ class RainOfSnow extends paperback_extensions_common_1.Source {
     constructor() {
         super(...arguments);
         this.parser = new RainOfSnowParser_1.RainOfSnowParser();
+        this.requestManager = createRequestManager({
+            requestsPerSecond: 5,
+            requestTimeout: 10000
+        });
     }
     getMangaShareUrl(mangaId) {
         return `${BASE}/comic/${mangaId}`;

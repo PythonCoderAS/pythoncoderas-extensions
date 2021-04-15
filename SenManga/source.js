@@ -341,7 +341,7 @@ const SenMangaParser_1 = require("./SenMangaParser");
 const BASE = "https://raw.senmanga.com";
 exports.SenMangaInfo = {
     icon: "icon.png",
-    version: "1.0.2",
+    version: "1.0.3",
     name: "SenManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",

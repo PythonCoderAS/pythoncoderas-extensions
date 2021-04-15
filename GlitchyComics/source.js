@@ -341,7 +341,7 @@ const GlitchyComicsParser_1 = require("./GlitchyComicsParser");
 const BASE = "https://glitchycomics.com";
 exports.GlitchyComicsInfo = {
     icon: "icon.png",
-    version: "1.1.1",
+    version: "1.1.2",
     name: "GlitchyComics",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -354,6 +354,10 @@ class GlitchyComics extends paperback_extensions_common_1.Source {
     constructor() {
         super(...arguments);
         this.parser = new GlitchyComicsParser_1.GlitchyComicsParser();
+        this.requestManager = createRequestManager({
+            requestsPerSecond: 5,
+            requestTimeout: 10000
+        });
     }
     getMangaShareUrl(mangaId) {
         return `${BASE}/${mangaId}`;

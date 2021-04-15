@@ -97,7 +97,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_catmanga_catmanga_.catmanga.html#cheerio" class="tsd-kind-icon">cheerio</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_catmanga_catmanga_.catmanga.html#parser" class="tsd-kind-icon">parser</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_catmanga_catmanga_.catmanga.html#requestmanager" class="tsd-kind-icon">request<wbr>Manager</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="_catmanga_catmanga_.catmanga.html#requestmanager" class="tsd-kind-icon">request<wbr>Manager</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -173,26 +173,20 @@
 					<div class="tsd-signature tsd-kind-icon">parser<span class="tsd-signature-symbol">:</span> <a href="_catmanga_catmangaparser_.catmangaparser.html" class="tsd-signature-type">CatMangaParser</a><span class="tsd-signature-symbol"> = new CatMangaParser()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/CatManga/CatManga.ts#L30">src/CatManga/CatManga.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/CatManga/CatManga.ts#L30">src/CatManga/CatManga.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 					<a name="requestmanager" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> request<wbr>Manager</h3>
-					<div class="tsd-signature tsd-kind-icon">request<wbr>Manager<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RequestManager</span></div>
+					<div class="tsd-signature tsd-kind-icon">request<wbr>Manager<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RequestManager</span><span class="tsd-signature-symbol"> = createRequestManager({requestsPerSecond: 5,requestTimeout: 10000})</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_catmanga_catmanga_.catmanga.html">CatManga</a>.<a href="_catmanga_catmanga_.catmanga.html#requestmanager">requestManager</a></p>
+						<p>Overrides Source.requestManager</p>
 						<ul>
-							<li>Defined in node_modules/paperback-extensions-common/dist/base/Source.d.ts:42</li>
+							<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/CatManga/CatManga.ts#L32">src/CatManga/CatManga.ts:32</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Manages the ratelimits and the number of requests that can be done per second
-							This is also used to fetch pages when a chapter is downloading</p>
-						</div>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -232,7 +226,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.filterUpdatedManga</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/CatManga/CatManga.ts#L127">src/CatManga/CatManga.ts:127</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/CatManga/CatManga.ts#L132">src/CatManga/CatManga.ts:132</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -330,7 +324,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getChapterDetails</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/CatManga/CatManga.ts#L75">src/CatManga/CatManga.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/CatManga/CatManga.ts#L80">src/CatManga/CatManga.ts:80</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -357,7 +351,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getChapters</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/CatManga/CatManga.ts#L90">src/CatManga/CatManga.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/CatManga/CatManga.ts#L95">src/CatManga/CatManga.ts:95</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -406,7 +400,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/CatManga/CatManga.ts#L55">src/CatManga/CatManga.ts:55</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/CatManga/CatManga.ts#L60">src/CatManga/CatManga.ts:60</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">CheerioStatic</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -424,7 +418,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getHomePageSections</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/CatManga/CatManga.ts#L36">src/CatManga/CatManga.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/CatManga/CatManga.ts#L41">src/CatManga/CatManga.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -465,7 +459,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/CatManga/CatManga.ts#L64">src/CatManga/CatManga.ts:64</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/CatManga/CatManga.ts#L69">src/CatManga/CatManga.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -489,7 +483,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getMangaDetails</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/CatManga/CatManga.ts#L100">src/CatManga/CatManga.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/CatManga/CatManga.ts#L105">src/CatManga/CatManga.ts:105</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -513,7 +507,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getMangaShareUrl</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/CatManga/CatManga.ts#L32">src/CatManga/CatManga.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/CatManga/CatManga.ts#L37">src/CatManga/CatManga.ts:37</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -606,7 +600,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getWebsiteMangaDirectory</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/CatManga/CatManga.ts#L68">src/CatManga/CatManga.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/CatManga/CatManga.ts#L73">src/CatManga/CatManga.ts:73</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -677,7 +671,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.searchRequest</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/CatManga/CatManga.ts#L110">src/CatManga/CatManga.ts:110</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/CatManga/CatManga.ts#L115">src/CatManga/CatManga.ts:115</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -810,7 +804,7 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_catmanga_catmanga_.catmanga.html#parser" class="tsd-kind-icon">parser</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_catmanga_catmanga_.catmanga.html#requestmanager" class="tsd-kind-icon">request<wbr>Manager</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
@@ -890,17 +884,17 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>

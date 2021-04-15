@@ -341,7 +341,7 @@ const NovelCoolParser_1 = require("./NovelCoolParser");
 const BASE = "https://www.novelcool.com";
 exports.NovelCoolInfo = {
     icon: "icon.png",
-    version: "1.0.1",
+    version: "1.0.2",
     name: "NovelCool",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -354,6 +354,10 @@ class NovelCool extends paperback_extensions_common_1.Source {
     constructor() {
         super(...arguments);
         this.parser = new NovelCoolParser_1.NovelCoolParser();
+        this.requestManager = createRequestManager({
+            requestsPerSecond: 5,
+            requestTimeout: 10000
+        });
     }
     getMangaShareUrl(mangaId) {
         return `${BASE}/novel/${mangaId}.html`;

@@ -97,7 +97,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="_rainofsnow_rainofsnow_.rainofsnow.html#cheerio" class="tsd-kind-icon">cheerio</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_rainofsnow_rainofsnow_.rainofsnow.html#parser" class="tsd-kind-icon">parser</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="_rainofsnow_rainofsnow_.rainofsnow.html#requestmanager" class="tsd-kind-icon">request<wbr>Manager</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="_rainofsnow_rainofsnow_.rainofsnow.html#requestmanager" class="tsd-kind-icon">request<wbr>Manager</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -171,26 +171,20 @@
 					<div class="tsd-signature tsd-kind-icon">parser<span class="tsd-signature-symbol">:</span> <a href="_rainofsnow_rainofsnowparser_.rainofsnowparser.html" class="tsd-signature-type">RainOfSnowParser</a><span class="tsd-signature-symbol"> = new RainOfSnowParser()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/RainOfSnow/RainOfSnow.ts#L30">src/RainOfSnow/RainOfSnow.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/RainOfSnow/RainOfSnow.ts#L30">src/RainOfSnow/RainOfSnow.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 					<a name="requestmanager" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> request<wbr>Manager</h3>
-					<div class="tsd-signature tsd-kind-icon">request<wbr>Manager<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RequestManager</span></div>
+					<div class="tsd-signature tsd-kind-icon">request<wbr>Manager<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RequestManager</span><span class="tsd-signature-symbol"> = createRequestManager({requestsPerSecond: 5,requestTimeout: 10000})</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from <a href="_catmanga_catmanga_.catmanga.html">CatManga</a>.<a href="_catmanga_catmanga_.catmanga.html#requestmanager">requestManager</a></p>
+						<p>Overrides Source.requestManager</p>
 						<ul>
-							<li>Defined in node_modules/paperback-extensions-common/dist/base/Source.d.ts:42</li>
+							<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/RainOfSnow/RainOfSnow.ts#L32">src/RainOfSnow/RainOfSnow.ts:32</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Manages the ratelimits and the number of requests that can be done per second
-							This is also used to fetch pages when a chapter is downloading</p>
-						</div>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -230,7 +224,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.filterUpdatedManga</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/RainOfSnow/RainOfSnow.ts#L137">src/RainOfSnow/RainOfSnow.ts:137</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/RainOfSnow/RainOfSnow.ts#L142">src/RainOfSnow/RainOfSnow.ts:142</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -328,7 +322,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getChapterDetails</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/RainOfSnow/RainOfSnow.ts#L86">src/RainOfSnow/RainOfSnow.ts:86</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/RainOfSnow/RainOfSnow.ts#L91">src/RainOfSnow/RainOfSnow.ts:91</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -355,7 +349,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getChapters</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/RainOfSnow/RainOfSnow.ts#L101">src/RainOfSnow/RainOfSnow.ts:101</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/RainOfSnow/RainOfSnow.ts#L106">src/RainOfSnow/RainOfSnow.ts:106</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -405,7 +399,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getHomePageSections</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/RainOfSnow/RainOfSnow.ts#L36">src/RainOfSnow/RainOfSnow.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/RainOfSnow/RainOfSnow.ts#L41">src/RainOfSnow/RainOfSnow.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -447,7 +441,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getMangaDetails</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/RainOfSnow/RainOfSnow.ts#L111">src/RainOfSnow/RainOfSnow.ts:111</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/RainOfSnow/RainOfSnow.ts#L116">src/RainOfSnow/RainOfSnow.ts:116</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -471,7 +465,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getMangaShareUrl</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/RainOfSnow/RainOfSnow.ts#L32">src/RainOfSnow/RainOfSnow.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/RainOfSnow/RainOfSnow.ts#L37">src/RainOfSnow/RainOfSnow.ts:37</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -521,7 +515,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_catmanga_catmanga_.catmanga.html">CatManga</a>.<a href="_catmanga_catmanga_.catmanga.html#getviewmoreitems">getViewMoreItems</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/RainOfSnow/RainOfSnow.ts#L144">src/RainOfSnow/RainOfSnow.ts:144</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/RainOfSnow/RainOfSnow.ts#L149">src/RainOfSnow/RainOfSnow.ts:149</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -548,7 +542,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.getWebsiteMangaDirectory</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/RainOfSnow/RainOfSnow.ts#L52">src/RainOfSnow/RainOfSnow.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/RainOfSnow/RainOfSnow.ts#L57">src/RainOfSnow/RainOfSnow.ts:57</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -619,7 +613,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Source.searchRequest</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/1b86ac2/src/RainOfSnow/RainOfSnow.ts#L121">src/RainOfSnow/RainOfSnow.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/PythonCoderAS/pythoncoderas-extensions/blob/cc25c21/src/RainOfSnow/RainOfSnow.ts#L126">src/RainOfSnow/RainOfSnow.ts:126</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -752,7 +746,7 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_rainofsnow_rainofsnow_.rainofsnow.html#parser" class="tsd-kind-icon">parser</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_rainofsnow_rainofsnow_.rainofsnow.html#requestmanager" class="tsd-kind-icon">request<wbr>Manager</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
@@ -826,17 +820,17 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>

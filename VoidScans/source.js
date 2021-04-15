@@ -341,7 +341,7 @@ const VoidScansParser_1 = require("./VoidScansParser");
 const BASE = "https://voidscans.net";
 exports.VoidScansInfo = {
     icon: "icon.svg",
-    version: "1.3.1",
+    version: "1.3.2",
     name: "VoidScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -354,6 +354,10 @@ class VoidScans extends paperback_extensions_common_1.Source {
     constructor() {
         super(...arguments);
         this.parser = new VoidScansParser_1.VoidScansParser();
+        this.requestManager = createRequestManager({
+            requestsPerSecond: 5,
+            requestTimeout: 10000
+        });
     }
     getMangaShareUrl(mangaId) {
         return `${BASE}/library/${mangaId}`;
