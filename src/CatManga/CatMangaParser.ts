@@ -95,7 +95,7 @@ export class CatMangaParser {
                                 id: String(chapter.number),
                                 langCode: LanguageCode.ENGLISH,
                                 mangaId: mangaId,
-                                name: this.decodeHTMLEntity(chapter.title),
+                                name: this.decodeHTMLEntity(chapter.title || "") || undefined,
                                 group: (chapter.groups || []).join(", ")
                             }))}
                         }
