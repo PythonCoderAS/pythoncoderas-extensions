@@ -341,7 +341,7 @@ const CatMangaParser_1 = require("./CatMangaParser");
 const BASE = "https://catmanga.org";
 exports.CatMangaInfo = {
     icon: "icon.png",
-    version: "1.2.2",
+    version: "1.2.3",
     name: "CatManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -574,7 +574,7 @@ class CatMangaParser {
                                     id: String(chapter.number),
                                     langCode: paperback_extensions_common_1.LanguageCode.ENGLISH,
                                     mangaId: mangaId,
-                                    name: this.decodeHTMLEntity(chapter.title),
+                                    name: this.decodeHTMLEntity(chapter.title || "") || undefined,
                                     group: (chapter.groups || []).join(", ")
                                 }));
                             }
