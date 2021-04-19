@@ -341,7 +341,7 @@ const RainOfSnowParser_1 = require("./RainOfSnowParser");
 const BASE = "https://rainofsnow.com";
 exports.RainOfSnowInfo = {
     icon: "icon.png",
-    version: "1.3.3",
+    version: "1.4.0",
     name: "RainOfSnow",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -423,11 +423,40 @@ class RainOfSnow extends paperback_extensions_common_1.Source {
             });
             let response = yield this.requestManager.schedule(options, 1);
             let $ = this.cheerio.load(response.data);
+            let more = true;
+            let pages = this.parser.parsePages($, $("div.bb-item[style=\"display: block;\"]").first().toArray()[0]);
+            let more_data = this.parser.parseMoreData($);
+            let offset;
+            if (!more_data) {
+                more = false;
+            }
+            else {
+                offset = more_data.offset;
+            }
+            while (more) {
+                const ajax = createRequestObject({
+                    url: `${BASE}/wp-admin/admin-ajax.php`,
+                    method: 'POST',
+                    data: Object.entries(this.urlEncodeObject({
+                        action: "my_repeater_show_more",
+                        post_id: Number(more_data === null || more_data === void 0 ? void 0 : more_data.post_id),
+                        offset: Number(offset),
+                        nonce: more_data === null || more_data === void 0 ? void 0 : more_data.nonce
+                    })).map(e => e.join('=')).join('&')
+                    // This is important because otherwise it gives me a 400, and I don't know why
+                });
+                let ajaxResponse = yield this.requestManager.schedule(ajax, 1);
+                let ajaxData = typeof ajaxResponse.data === "string" ? JSON.parse(ajaxResponse.data) : ajaxResponse.data;
+                let $ajax = this.cheerio.load(ajaxData.content);
+                pages = pages.concat(this.parser.parsePages($ajax, $ajax.root().toArray()[0]));
+                more = ajaxData.more;
+                offset = ajaxData.offset;
+            }
             return createChapterDetails({
                 id: chapterId,
                 longStrip: true,
                 mangaId: mangaId,
-                pages: this.parser.parsePages($)
+                pages: pages
             });
         });
     }
@@ -515,11 +544,30 @@ class RainOfSnowParser {
         }));
         return mangaTiles;
     }
-    parsePages($) {
+    static repeater_field_regex(field_name) {
+        return new RegExp(`(var|let|const) my_repeater_field_${field_name}\\s*=\\s*["'\`]?([^"'\`\\n;]+)["'\`]?`, "i");
+    }
+    parseMoreData($) {
+        const data = $("div.bb-item[style=\"display: block;\"] script").first().html();
+        if (data) {
+            const post_id = data.match(RainOfSnowParser.repeater_field_regex("post_id"));
+            const offset = data.match(RainOfSnowParser.repeater_field_regex("offset"));
+            const nonce = data.match(RainOfSnowParser.repeater_field_regex("nonce"));
+            if (post_id && offset && nonce) {
+                return {
+                    post_id: post_id[2],
+                    offset: offset[2],
+                    nonce: nonce[2]
+                };
+            }
+        }
+        return null;
+    }
+    parsePages($, element) {
         const pages = [];
-        $("div.bb-item[style=\"display: block;\"] img").map((index, element) => {
-            if ("attribs" in element && element.attribs["src"]) {
-                pages.push(element.attribs["src"]);
+        $("img", element).map((index, element1) => {
+            if ("attribs" in element1 && element1.attribs["src"]) {
+                pages.push(element1.attribs["src"]);
             }
         });
         return pages;
