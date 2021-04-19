@@ -1,5 +1,11 @@
 import {Chapter, LanguageCode, Manga, MangaStatus, MangaTile, Tag} from "paperback-extensions-common";
 
+interface morePageData {
+    post_id: string,
+    offset: string,
+    nonce: string
+}
+
 export class RainOfSnowParser {
 
     decodeHTMLEntity(str: string): string {
@@ -30,11 +36,32 @@ export class RainOfSnowParser {
         return mangaTiles;
     }
 
-    parsePages($: CheerioStatic) {
+    private static repeater_field_regex(field_name: string){
+        return new RegExp(`(var|let|const) my_repeater_field_${field_name}\\s*=\\s*["'\`]?([^"'\`\\n;]+)["'\`]?`, "i")
+    }
+
+    parseMoreData($: CheerioStatic): morePageData | null{
+        const data = $("div.bb-item[style=\"display: block;\"] script").first().html()
+        if (data){
+            const post_id = data.match(RainOfSnowParser.repeater_field_regex("post_id"))
+            const offset = data.match(RainOfSnowParser.repeater_field_regex("offset"))
+            const nonce = data.match(RainOfSnowParser.repeater_field_regex("nonce"))
+            if (post_id && offset && nonce){
+            return {
+                post_id: post_id[2],
+                offset: offset[2],
+                nonce: nonce[2]
+            }
+            }
+        }
+        return null;
+    }
+
+    parsePages($: CheerioStatic, element: CheerioElement) {
         const pages: string[] = [];
-        $("div.bb-item[style=\"display: block;\"] img").map((index, element) => {
-            if ("attribs" in element && element.attribs["src"]){
-                pages.push(element.attribs["src"])
+        $("img", element).map((index, element1) => {
+            if ("attribs" in element1 && element1.attribs["src"]){
+                pages.push(element1.attribs["src"])
             }
         });
         return pages;

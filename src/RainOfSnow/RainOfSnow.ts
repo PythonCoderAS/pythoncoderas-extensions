@@ -15,7 +15,7 @@ const BASE = "https://rainofsnow.com"
 
 export const RainOfSnowInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.3.3",
+    version: "1.4.0",
     name: "RainOfSnow",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -95,11 +95,39 @@ export class RainOfSnow extends Source {
         });
         let response = await this.requestManager.schedule(options, 1);
         let $ = this.cheerio.load(response.data);
+        let more: boolean = true;
+        let pages: string[] = this.parser.parsePages($, $("div.bb-item[style=\"display: block;\"]").first().toArray()[0])
+        let more_data = this.parser.parseMoreData($);
+        let offset;
+        if (!more_data){
+            more = false;
+        } else {
+            offset = more_data.offset;
+        }
+        while (more){
+            const ajax: Request = createRequestObject({
+                url: `${BASE}/wp-admin/admin-ajax.php`,
+                method: 'POST',
+                data: Object.entries(this.urlEncodeObject({
+                    action: "my_repeater_show_more",
+                    post_id: Number(more_data?.post_id),
+                    offset: Number(offset),
+                    nonce: more_data?.nonce
+                })).map(e => e.join('=')).join('&')
+                // This is important because otherwise it gives me a 400, and I don't know why
+            });
+            let ajaxResponse = await this.requestManager.schedule(ajax, 1);
+            let ajaxData = typeof ajaxResponse.data === "string" ? JSON.parse(ajaxResponse.data) : ajaxResponse.data
+            let $ajax = this.cheerio.load(ajaxData.content);
+            pages = pages.concat(this.parser.parsePages($ajax, $ajax.root().toArray()[0]))
+            more = ajaxData.more;
+            offset = ajaxData.offset;
+        }
         return createChapterDetails({
             id: chapterId,
             longStrip: true,
             mangaId: mangaId,
-            pages: this.parser.parsePages($)
+            pages: pages
         })
     }
 
