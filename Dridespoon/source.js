@@ -335,64 +335,90 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VoidScans = exports.VoidScansInfo = void 0;
+exports.Dridespoon = exports.DridespoonInfo = void 0;
 const paperback_extensions_common_1 = require("paperback-extensions-common");
-const VoidScansParser_1 = require("./VoidScansParser");
-const BASE = "https://voidscans.net";
-exports.VoidScansInfo = {
-    icon: "icon.svg",
-    version: "1.4.0",
-    name: "VoidScans",
+const DridespoonParser_1 = require("./DridespoonParser");
+const BASE = "http://dridesp.ooo";
+exports.DridespoonInfo = {
+    icon: "icon.png",
+    version: "1.0.0",
+    name: "Dridespoon",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
-    description: "Extension that pulls manga from VoidScans",
+    description: "Extension that pulls manga from Dridespoon",
     language: "en",
     hentaiSource: false,
-    websiteBaseURL: BASE
+    websiteBaseURL: BASE,
+    sourceTags: [
+        {
+            text: "Notifications",
+            type: paperback_extensions_common_1.TagType.GREEN
+        }
+    ]
 };
-class VoidScans extends paperback_extensions_common_1.Source {
+class Dridespoon extends paperback_extensions_common_1.Source {
     constructor() {
         super(...arguments);
-        this.parser = new VoidScansParser_1.VoidScansParser();
+        this.parser = new DridespoonParser_1.DridespoonParser();
         this.requestManager = createRequestManager({
             requestsPerSecond: 5,
             requestTimeout: 10000
         });
     }
     getMangaShareUrl(mangaId) {
-        return `${BASE}/library/${mangaId}`;
+        return `${BASE}/n/${mangaId}`;
     }
     getHomePageSections(sectionCallback) {
         return __awaiter(this, void 0, void 0, function* () {
+            const options = createRequestObject({
+                url: `${BASE}/n/`,
+                method: 'GET'
+            });
+            let response = yield this.requestManager.schedule(options, 1);
+            let $ = this.cheerio.load(response.data);
             sectionCallback(createHomeSection({
                 id: "1",
-                items: (yield this.getWebsiteMangaDirectory(null)).results,
-                title: "All Manga"
+                items: this.parser.parseMangaList($, BASE, "sfw"),
+                title: "Involvements"
+            }));
+            sectionCallback(createHomeSection({
+                id: "2",
+                items: this.parser.parseMangaList($, BASE, "collapseOne"),
+                title: "Past Involvements"
+            }));
+            sectionCallback(createHomeSection({
+                id: "3",
+                items: this.parser.parseMangaList($, BASE, "collapseThree"),
+                title: "Finished Projects"
             }));
         });
     }
     getWebsiteMangaDirectory(metadata) {
         return __awaiter(this, void 0, void 0, function* () {
             const options = createRequestObject({
-                url: `${BASE}/library`,
+                url: `${BASE}/n/`,
                 method: 'GET'
             });
             let response = yield this.requestManager.schedule(options, 1);
             let $ = this.cheerio.load(response.data);
             return createPagedResults({
-                results: this.parser.parseMangaList($, BASE)
+                results: this.parser.parseMangaList($, BASE, "main")
             });
         });
     }
     getChapterDetails(mangaId, chapterId) {
         return __awaiter(this, void 0, void 0, function* () {
+            let url = this.getMangaShareUrl(mangaId);
+            if (chapterId !== "Paperback-iOS-sentinel-id") {
+                url += "/" + chapterId;
+            }
             const options = createRequestObject({
-                url: `${BASE}/read/${mangaId}/${chapterId}`,
+                url: url,
                 method: 'GET'
             });
             let response = yield this.requestManager.schedule(options, 1);
             let $ = this.cheerio.load(response.data);
-            const pages = this.parser.parsePages($);
+            const pages = this.parser.parsePages($, BASE);
             return createChapterDetails({
                 id: chapterId,
                 longStrip: false,
@@ -404,23 +430,46 @@ class VoidScans extends paperback_extensions_common_1.Source {
     getChapters(mangaId) {
         return __awaiter(this, void 0, void 0, function* () {
             const options = createRequestObject({
-                url: `${BASE}/library/${mangaId}`,
+                url: this.getMangaShareUrl(mangaId),
                 method: 'GET'
             });
             let response = yield this.requestManager.schedule(options, 1);
             let $ = this.cheerio.load(response.data);
-            return this.parser.parseChapterList($, mangaId);
+            let parsedPages = this.parser.parsePages($, BASE);
+            if (parsedPages.length !== 0) {
+                return [createChapter({
+                        chapNum: 1,
+                        id: "Paperback-iOS-sentinel-id",
+                        langCode: paperback_extensions_common_1.LanguageCode.ENGLISH,
+                        mangaId: mangaId
+                    })];
+            }
+            else {
+                return this.parser.parseChapterList($, mangaId);
+            }
         });
     }
     getMangaDetails(mangaId) {
         return __awaiter(this, void 0, void 0, function* () {
             const options = createRequestObject({
-                url: `${BASE}/library/${mangaId}`,
+                url: this.getMangaShareUrl(mangaId),
                 method: 'GET'
             });
             let response = yield this.requestManager.schedule(options, 1);
             let $ = this.cheerio.load(response.data);
-            return this.parser.parseManga($, mangaId);
+            let parsedPages = this.parser.parsePages($, BASE);
+            if (parsedPages.length !== 0) {
+                return createManga({
+                    id: mangaId,
+                    image: parsedPages[0],
+                    rating: 0,
+                    status: paperback_extensions_common_1.MangaStatus.COMPLETED,
+                    titles: [mangaId]
+                });
+            }
+            else {
+                return this.parser.parseManga($, mangaId, BASE);
+            }
         });
     }
     searchRequest(query, metadata) {
@@ -443,117 +492,73 @@ class VoidScans extends paperback_extensions_common_1.Source {
     }
     filterUpdatedManga(mangaUpdatesFoundCallback, time, ids) {
         return __awaiter(this, void 0, void 0, function* () {
-            // TODO: Wait for times to be implemented.
-            /*
-            const options: Request = createRequestObject({
-                url: `${BASE}`,
-                method: 'GET'
-            });
-            let response = await this.requestManager.schedule(options, 1);
-            let $ = this.cheerio.load(response.data);
-            mangaUpdatesFoundCallback(createMangaUpdates({
-                ids: this.parser.parseUpdatedManga($, BASE, time)
-            }));
-             */
+            mangaUpdatesFoundCallback(createMangaUpdates({ ids: ids }));
         });
     }
 }
-exports.VoidScans = VoidScans;
+exports.Dridespoon = Dridespoon;
 
-},{"./VoidScansParser":27,"paperback-extensions-common":4}],27:[function(require,module,exports){
+},{"./DridespoonParser":27,"paperback-extensions-common":4}],27:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VoidScansParser = void 0;
+exports.DridespoonParser = void 0;
 const paperback_extensions_common_1 = require("paperback-extensions-common");
-class VoidScansParser {
+class DridespoonParser {
     constructor() {
         this.pageRegex = /src:"(https:\/\/beta\.voidscans\.net\/[^\s"']+)"/g;
     }
-    parseMangaList($, base) {
+    parseMangaList($, base, id) {
         const mangaTiles = [];
-        $("div.col").map((index, element) => {
-            const link = $("a.btn", element);
-            const linkId = link.attr("href");
+        $(`#${id} div.col-md-4.picture-item:not(.manga-card)`).map((index, element) => {
+            const link = $("a", $("li.list-group-item", element).last());
+            let linkId = link.attr("href");
+            if (!linkId) {
+                const link2 = $("a", element).first().attr("href");
+                if (link2 && link2.match(/\/$/)) {
+                    // Exception for manga where there are no chapters but the manga itself is the chapter.
+                    linkId = link2;
+                }
+            }
             if (linkId) {
                 mangaTiles.push(createMangaTile({
-                    id: linkId.replace(`${base}/library/`, ""),
+                    id: linkId.replace(`/n/`, "").replace("/", ""),
                     title: createIconText({
-                        text: $("h2", element).text()
+                        text: $("p", element).first().text().trim().replaceAll(/\s{2,}/g, "")
                     }),
-                    image: $("img", element).attr("src") || "",
-                    primaryText: createIconText({
-                        text: $("p.card-text", element).text()
-                    })
+                    image: `${base}/${($("img", element).first().attr("src") || "").replace(/^\//, "")}`
                 }));
             }
         });
         return mangaTiles;
     }
-    parseUpdatedManga($, base, dateToCheck) {
-        const ids = [];
-        $("div.col").map((index, element) => {
-            const link = $("a.btn", element);
-            const linkId = link.attr("href");
-            if (linkId) {
-                const dateUpdated = $("small.text-muted").text();
-                const parts = dateUpdated.split(" ");
-                if (parts.length === 2) {
-                    const date = parts[0];
-                    const dateParts = date.split("/");
-                    let day = 0, month = 0, year = 0;
-                    if (dateParts.length === 3) {
-                        year = Number(dateParts[0]);
-                        month = Number(dateParts[1]) - 1;
-                        day = Number(dateParts[2]);
-                    }
-                    const time = parts[1];
-                    const timeParts = time.split("/");
-                    let second = 0, minute = 0, hour = 0;
-                    if (timeParts.length === 3) {
-                        hour = Number(timeParts[0]);
-                        minute = Number(timeParts[1]);
-                        second = Number(timeParts[2]);
-                        const dateObj = new Date(Date.UTC(year, month, day, hour, minute, second));
-                        if (dateObj > dateToCheck) {
-                            ids.push(linkId.replace(`${base}/library/`, ""));
-                        }
-                    }
-                }
-            }
-        });
-        return ids;
-    }
-    parsePages($) {
+    parsePages($, base) {
         const pages = [];
-        const data = $("script:not([src])[type]").html();
-        if (data) {
-            const matches = [...data.matchAll(this.pageRegex)];
-            for (let i = 0; i < matches.length; i++) {
-                pages.push(matches[i][1]);
-            }
-        }
+        $("img[data-src]").map((index, element) => {
+            pages.push(element.attribs["data-src"].replace("/../..", base));
+        });
         return pages;
     }
     parseChapterList($, mangaId) {
         const chapters = [];
-        $("ul.list-group").first().children().map((index, element) => {
-            const link = $(element).first();
-            const chapNum = Number(link.text().replace("Chapter ", ""));
+        $("table[data-sort-name] tbody tr").map((index, element) => {
+            const chapNum = Number($("th", element).first().text());
             const data = {
                 chapNum: chapNum,
                 id: String(chapNum),
                 langCode: paperback_extensions_common_1.LanguageCode.ENGLISH,
                 mangaId: mangaId,
+                time: new Date($("td", element).last().text()),
+                name: $("td", element).first().text()
             };
             chapters.push(createChapter(data));
         });
         return chapters;
     }
-    parseManga($, mangaId) {
+    parseManga($, mangaId, base) {
         const mangaObj = {
-            desc: $("p").first().text().trim(),
+            desc: $("p#series_desc").first().text().trim(),
             id: mangaId,
-            image: $("img#manga-img").attr("src") || "",
+            image: base + ($("img").attr("src") || ""),
             rating: 0,
             status: paperback_extensions_common_1.MangaStatus.ONGOING,
             titles: [$("h1").first().text()],
@@ -561,7 +566,7 @@ class VoidScansParser {
         return createManga(mangaObj);
     }
 }
-exports.VoidScansParser = VoidScansParser;
+exports.DridespoonParser = DridespoonParser;
 
 },{"paperback-extensions-common":4}]},{},[26])(26)
 });
