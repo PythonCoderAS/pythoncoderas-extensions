@@ -341,7 +341,7 @@ const VoidScansParser_1 = require("./VoidScansParser");
 const BASE = "https://voidscans.net";
 exports.VoidScansInfo = {
     icon: "icon.svg",
-    version: "1.4.0",
+    version: "1.4.1",
     name: "VoidScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -466,9 +466,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.VoidScansParser = void 0;
 const paperback_extensions_common_1 = require("paperback-extensions-common");
 class VoidScansParser {
-    constructor() {
-        this.pageRegex = /src:"(https:\/\/beta\.voidscans\.net\/[^\s"']+)"/g;
-    }
     parseMangaList($, base) {
         const mangaTiles = [];
         $("div.col").map((index, element) => {
@@ -525,13 +522,11 @@ class VoidScansParser {
     }
     parsePages($) {
         const pages = [];
-        const data = $("script:not([src])[type]").html();
-        if (data) {
-            const matches = [...data.matchAll(this.pageRegex)];
-            for (let i = 0; i < matches.length; i++) {
-                pages.push(matches[i][1]);
+        $("#slideshow-container img").map((index, element) => {
+            if (element.attribs["src"]) {
+                pages.push(element.attribs["src"]);
             }
-        }
+        });
         return pages;
     }
     parseChapterList($, mangaId) {
