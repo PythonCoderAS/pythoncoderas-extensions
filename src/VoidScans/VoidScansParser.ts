@@ -1,9 +1,6 @@
 import {Chapter, LanguageCode, Manga, MangaStatus, MangaTile} from "paperback-extensions-common";
 
 export class VoidScansParser {
-
-    pageRegex = /src:"(https:\/\/beta\.voidscans\.net\/[^\s"']+)"/g
-
     parseMangaList($: CheerioStatic, base: string) {
         const mangaTiles: MangaTile[] = [];
         $("div.col").map((index, element) => {
@@ -62,13 +59,12 @@ export class VoidScansParser {
 
     parsePages($: CheerioStatic): string[] {
         const pages: string[] = [];
-        const data = $("script:not([src])[type]").html();
-        if (data){
-            const matches = [...data.matchAll(this.pageRegex)];
-            for (let i = 0; i < matches.length; i++) {
-                pages.push(matches[i][1])
+
+        $("#slideshow-container img").map((index, element) => {
+            if (element.attribs["src"]){
+                pages.push(element.attribs["src"])
             }
-        }
+        })
         return pages;
     }
 

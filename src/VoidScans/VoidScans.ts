@@ -15,7 +15,7 @@ const BASE = "https://voidscans.net"
 
 export const VoidScansInfo: SourceInfo = {
     icon: "icon.svg",
-    version: "1.4.0",
+    version: "1.4.1",
     name: "VoidScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",

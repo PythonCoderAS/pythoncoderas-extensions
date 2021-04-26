@@ -10,7 +10,7 @@ describe("VoidScans Tests", function () {
     let chaiAsPromised = require("chai-as-promised");
     chai.use(chaiAsPromised);
 
-    let mangaId = "2";
+    let mangaId = "6";
 
     it("Retrieve Manga Details", async () => {
         let details = await wrapper.getMangaDetails(source, mangaId);
@@ -76,12 +76,5 @@ describe("VoidScans Tests", function () {
             expect(subitem.title, "No Title found for homepage item").to.not.be.empty;
             expect(subitem.image, "No Image found for homepage item").to.not.be.empty;
         }
-    })
-
-    it("Testing Notifications", async () => {
-        let updates = await wrapper.filterUpdatedManga(source, new Date("2021-1-27"), [mangaId])
-        expect(updates, "No server response").to.exist
-        expect(updates, "Empty server response").to.not.be.empty
-        expect(updates[0], "No updates").to.not.be.empty;
     })
 });
