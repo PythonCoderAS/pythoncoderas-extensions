@@ -446,7 +446,7 @@ class GuyaTemplate extends paperback_extensions_common_1.Source {
     getHomePageSections(sectionCallback) {
         return __awaiter(this, void 0, void 0, function* () {
             // Send the empty homesection back so the app can preload the section
-            var homeSection = createHomeSection({ id: "all_guya", title: "ALL GUYA" });
+            var homeSection = createHomeSection({ id: "all", title: "ALL MANGAS" });
             sectionCallback(homeSection);
             const request = createRequestObject({
                 url: `${this.baseUrl}/api/get_all_series/`,
@@ -501,7 +501,7 @@ const GuyaTemplate_1 = require("../GuyaTemplate");
 const BASE = "https://mahoushoujobu.com/";
 exports.MahouShoujoBuInfo = {
     icon: "icon.png",
-    version: "1.0.0",
+    version: "1.0.1",
     name: "MahouShoujoBu",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
