@@ -147,7 +147,7 @@ export abstract class GuyaTemplate extends Source {
     async getHomePageSections(sectionCallback: (section: HomeSection) => void): Promise<void> {
 
         // Send the empty homesection back so the app can preload the section
-        var homeSection = createHomeSection({ id: "all_guya", title: "ALL GUYA" })
+        var homeSection = createHomeSection({ id: "all", title: "ALL MANGAS" })
         sectionCallback(homeSection)
 
         const request = createRequestObject({
