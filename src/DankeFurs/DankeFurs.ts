@@ -5,7 +5,7 @@ const BASE = "https://danke.moe"
 
 export const DankeFursInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.1",
+    version: "1.0.5",
     name: "DankeFurs",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",

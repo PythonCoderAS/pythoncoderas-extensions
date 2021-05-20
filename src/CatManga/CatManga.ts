@@ -15,7 +15,7 @@ const BASE = "https://catmanga.org"
 
 export const CatMangaInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.2.4",
+    version: "1.2.8",
     name: "CatManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -101,6 +101,9 @@ export class CatManga extends Source {
     async searchRequest(query: SearchRequest, metadata: any): Promise<PagedResults> {
         // TODO: Wait for search to be implemented on the website.
         const results = (await this.getWebsiteMangaDirectory(null)).results;
+        if (query.title){
+            query.title = query.title.replace(/\+/g, " ").trim();
+        }
         const data: MangaTile[] = [];
         for (let i = 0; i < results.length; i++) {
             const key = results[i];
@@ -110,6 +113,7 @@ export class CatManga extends Source {
                 }
             }
         }
+        console.log(data.length)
         return createPagedResults({
             results: data
         });

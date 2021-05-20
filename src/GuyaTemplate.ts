@@ -125,7 +125,9 @@ export abstract class GuyaTemplate extends Source {
 
         let result = typeof data.data === "string" ? JSON.parse(data.data) : data.data
         let query = searchQuery.title ?? ''
-
+        if (query){
+            query = query.replace(/\+/g, " ").trim();
+        }
         let filteredResults = Object.keys(result).filter((e) =>
             e.toLowerCase().includes(query.toLowerCase())
         )
