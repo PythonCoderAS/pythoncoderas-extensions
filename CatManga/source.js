@@ -341,7 +341,7 @@ const CatMangaParser_1 = require("./CatMangaParser");
 const BASE = "https://catmanga.org";
 exports.CatMangaInfo = {
     icon: "icon.png",
-    version: "1.2.3",
+    version: "1.2.4",
     name: "CatManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -366,16 +366,6 @@ class CatManga extends paperback_extensions_common_1.Source {
         return __awaiter(this, void 0, void 0, function* () {
             const $ = yield this.getHomePageData();
             sectionCallback(createHomeSection({
-                id: "featured",
-                title: "Featured",
-                items: this.parser.parseFeatured($, BASE)
-            }));
-            sectionCallback(createHomeSection({
-                id: "latest",
-                title: "Latest",
-                items: this.getLatest($)
-            }));
-            sectionCallback(createHomeSection({
                 id: "all",
                 items: (yield this.getWebsiteMangaDirectory(null)).results,
                 title: "All Manga"
@@ -392,13 +382,10 @@ class CatManga extends paperback_extensions_common_1.Source {
             return this.cheerio.load(response.data);
         });
     }
-    getLatest($) {
-        return this.parser.parseTileList($, "latestChapterListView", "latestChapterView");
-    }
     getWebsiteMangaDirectory(metadata) {
         return __awaiter(this, void 0, void 0, function* () {
             return createPagedResults({
-                results: this.parser.parseTileList(yield this.getHomePageData(), "allseries")
+                results: this.parser.parseHomeTiles(yield this.getHomePageData(), BASE)
             });
         });
     }
@@ -490,54 +477,28 @@ class CatMangaParser {
             return String.fromCharCode(dec);
         });
     }
-    parseTileList($, className, className2 = null) {
-        if (className2 === null) {
-            className2 = className;
+    parseHomeTiles($, base) {
+        const mangaTiles = [];
+        const json = JSON.parse($("script#__NEXT_DATA__").html() || "{}");
+        if (json) {
+            const props = json.props;
+            if (props) {
+                const pageProps = props.pageProps;
+                if (pageProps) {
+                    const series = pageProps.series;
+                    for (let i = 0; i < series.length; i++) {
+                        const item = series[i];
+                        mangaTiles.push(createMangaTile({
+                            id: item.series_id,
+                            image: item.cover_art.source,
+                            title: createIconText({
+                                text: this.decodeHTMLEntity(item.title)
+                            })
+                        }));
+                    }
+                }
+            }
         }
-        const mangaTiles = [];
-        $(`div[class^=${className}_grid] *[class^=${className2}_element]`).map((index, element) => {
-            const linkId = element.attribs["href"];
-            if (linkId) {
-                const tile = {
-                    id: linkId.replace(`/series/`, "").split("/")[0],
-                    title: createIconText({
-                        text: this.decodeHTMLEntity($("p", element).first().text().trim())
-                    }),
-                    image: $("img", element).attr("src") || ""
-                };
-                if ($("p", element).length > 1) {
-                    tile.primaryText = createIconText({
-                        text: this.decodeHTMLEntity($("p", element).last().text().trim())
-                    });
-                }
-                mangaTiles.push(createMangaTile(tile));
-            }
-        });
-        return mangaTiles;
-    }
-    parseFeatured($, base) {
-        const seen = [];
-        const mangaTiles = [];
-        $("ul.slider li.slide").map((index, element) => {
-            const link = $("a", element);
-            const linkId = link.attr("href");
-            if (linkId) {
-                const id = linkId.replace(`/series/`, "").split("/")[0];
-                if (!seen.includes(id)) {
-                    seen.push(id);
-                    mangaTiles.push(createMangaTile({
-                        id: id,
-                        title: createIconText({
-                            text: this.decodeHTMLEntity($("h1", element).first().text().trim())
-                        }),
-                        image: base + $("img", element).attr("src") || "",
-                        primaryText: createIconText({
-                            text: this.decodeHTMLEntity($("div p", $("a", element).parent()).first().text().trim())
-                        })
-                    }));
-                }
-            }
-        });
         return mangaTiles;
     }
     parsePages($) {
@@ -616,7 +577,7 @@ class CatMangaParser {
                 const pageProps = props.pageProps;
                 if (pageProps) {
                     const series = pageProps.series;
-                    if (series && series.genres && (series.genres.length || 0) > 0 && series.title && series.decription && series.status && series.cover_art && series.conver_art.source) {
+                    if (series && series.genres && (series.genres.length || 0) > 0 && series.title && series.description && series.status && series.cover_art && series.cover_art.source) {
                         let titles = [series.title];
                         const covers = [];
                         const tags = [];
@@ -668,7 +629,7 @@ class CatMangaParser {
                 }
             }
         }
-        return this.parseMangaFallback($, mangaId);
+        throw new Error("Bug!");
     }
     parseMangaFallback($, mangaId) {
         const tags = [];
