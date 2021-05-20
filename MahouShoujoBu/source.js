@@ -429,6 +429,9 @@ class GuyaTemplate extends paperback_extensions_common_1.Source {
             const data = yield this.requestManager.schedule(request, 1);
             let result = typeof data.data === "string" ? JSON.parse(data.data) : data.data;
             let query = (_a = searchQuery.title) !== null && _a !== void 0 ? _a : '';
+            if (query) {
+                query = query.replace(/\+/g, " ").trim();
+            }
             let filteredResults = Object.keys(result).filter((e) => e.toLowerCase().includes(query.toLowerCase()));
             let tiles = filteredResults.map((series) => {
                 let seriesMetadata = result[series];
@@ -501,7 +504,7 @@ const GuyaTemplate_1 = require("../GuyaTemplate");
 const BASE = "https://mahoushoujobu.com/";
 exports.MahouShoujoBuInfo = {
     icon: "icon.png",
-    version: "1.0.1",
+    version: "1.0.2",
     name: "MahouShoujoBu",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
