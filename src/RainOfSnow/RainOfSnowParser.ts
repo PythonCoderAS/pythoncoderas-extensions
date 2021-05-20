@@ -60,8 +60,8 @@ export class RainOfSnowParser {
     parsePages($: CheerioStatic, element: CheerioElement) {
         const pages: string[] = [];
         $("img", element).map((index, element1) => {
-            if ("attribs" in element1 && element1.attribs["src"]){
-                pages.push(element1.attribs["src"])
+            if ("attribs" in element1 && element1.attribs["data-src"]){
+                pages.push(element1.attribs["data-src"])
             }
         });
         return pages;
