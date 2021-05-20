@@ -57,7 +57,7 @@ describe("DankeFurs Tests", function () {
 
     it("Testing search", async () => {
         let testSearch = createSearchRequest({
-            title: "kazu",
+            title: "Crossdressing",
         });
 
         let search = await wrapper.searchRequest(source, testSearch);

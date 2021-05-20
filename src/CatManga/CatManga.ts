@@ -15,7 +15,7 @@ const BASE = "https://catmanga.org"
 
 export const CatMangaInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.2.3",
+    version: "1.2.4",
     name: "CatManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -41,16 +41,6 @@ export class CatManga extends Source {
     async getHomePageSections(sectionCallback: (section: HomeSection) => void): Promise<void> {
         const $ = await this.getHomePageData()
         sectionCallback(createHomeSection({
-            id: "featured",
-            title: "Featured",
-            items: this.parser.parseFeatured($, BASE)
-        }))
-        sectionCallback(createHomeSection({
-            id: "latest",
-            title: "Latest",
-            items: this.getLatest($)
-        }))
-        sectionCallback(createHomeSection({
             id: "all",
             items: (await this.getWebsiteMangaDirectory(null)).results,
             title: "All Manga"
@@ -66,13 +56,9 @@ export class CatManga extends Source {
         return this.cheerio.load(response.data);
     }
 
-    getLatest($: CheerioStatic){
-        return this.parser.parseTileList($, "latestChapterListView", "latestChapterView");
-    }
-
     async getWebsiteMangaDirectory(metadata: any): Promise<PagedResults> {
         return createPagedResults({
-            results: this.parser.parseTileList(await this.getHomePageData(), "allseries")
+            results: this.parser.parseHomeTiles(await this.getHomePageData(), BASE)
         });
     }
 

@@ -8,55 +8,28 @@ export class CatMangaParser {
         })
     }
 
-    parseTileList($: CheerioStatic, className: string, className2: string | null = null) {
-        if (className2 === null){
-            className2 = className;
+    parseHomeTiles($: CheerioStatic, base: string){
+        const mangaTiles: MangaTile[] = [];
+        const json = JSON.parse($("script#__NEXT_DATA__").html() || "{}");
+        if (json) {
+            const props = json.props;
+            if (props) {
+                const pageProps = props.pageProps;
+                if (pageProps) {
+                    const series = pageProps.series;
+                    for (let i = 0; i < series.length; i++) {
+                        const item = series[i];
+                        mangaTiles.push(createMangaTile({
+                            id: item.series_id,
+                            image: item.cover_art.source,
+                            title: createIconText({
+                                text: this.decodeHTMLEntity(item.title)
+                            })
+                        }))
+                    }
+                }
+            }
         }
-        const mangaTiles: MangaTile[] = [];
-        $(`div[class^=${className}_grid] *[class^=${className2}_element]`).map((index, element) => {
-            const linkId = element.attribs["href"];
-            if (linkId) {
-                const tile: MangaTile = {
-                    id: linkId.replace(`/series/`, "").split("/")[0],
-                    title: createIconText({
-                        text: this.decodeHTMLEntity($("p", element).first().text().trim())
-                    }),
-                    image: $("img", element).attr("src") || ""
-                }
-                if ($("p", element).length > 1){
-                    tile.primaryText = createIconText({
-                        text: this.decodeHTMLEntity($("p", element).last().text().trim())
-                    });
-                }
-                mangaTiles.push(createMangaTile(tile));
-            }
-        })
-        return mangaTiles;
-    }
-
-    parseFeatured($: CheerioStatic, base: string){
-        const seen: string[] = [];
-        const mangaTiles: MangaTile[] = [];
-        $("ul.slider li.slide").map((index, element) => {
-            const link = $("a", element);
-            const linkId = link.attr("href")
-            if (linkId){
-                const id = linkId.replace(`/series/`, "").split("/")[0];
-                if (!seen.includes(id)){
-                    seen.push(id);
-                    mangaTiles.push(createMangaTile({
-                        id: id,
-                        title: createIconText({
-                            text: this.decodeHTMLEntity($("h1", element).first().text().trim())
-                        }),
-                        image: base + $("img", element).attr("src") || "",
-                        primaryText: createIconText({
-                            text: this.decodeHTMLEntity($("div p", $("a", element).parent()).first().text().trim())
-                        })
-                    }))
-                }
-            }
-        })
         return mangaTiles;
     }
 
@@ -138,7 +111,7 @@ export class CatMangaParser {
                 const pageProps = props.pageProps;
                 if (pageProps){
                     const series = pageProps.series;
-                    if (series && series.genres && (series.genres.length || 0) > 0 && series.title && series.decription && series.status && series.cover_art && series.conver_art.source){
+                    if (series && series.genres && (series.genres.length || 0) > 0 && series.title && series.description && series.status && series.cover_art && series.cover_art.source){
                         let titles = [series.title]
                         const covers = [];
                         const tags = []
@@ -189,7 +162,7 @@ export class CatMangaParser {
                 }
             }
         }
-        return this.parseMangaFallback($, mangaId);
+        throw new Error("Bug!")
     }
 
     parseMangaFallback($: CheerioStatic, mangaId: string) {
