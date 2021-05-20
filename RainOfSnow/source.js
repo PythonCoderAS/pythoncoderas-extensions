@@ -341,7 +341,7 @@ const RainOfSnowParser_1 = require("./RainOfSnowParser");
 const BASE = "https://rainofsnow.com";
 exports.RainOfSnowInfo = {
     icon: "icon.png",
-    version: "1.4.0",
+    version: "1.4.1",
     name: "RainOfSnow",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -566,8 +566,8 @@ class RainOfSnowParser {
     parsePages($, element) {
         const pages = [];
         $("img", element).map((index, element1) => {
-            if ("attribs" in element1 && element1.attribs["src"]) {
-                pages.push(element1.attribs["src"]);
+            if ("attribs" in element1 && element1.attribs["data-src"]) {
+                pages.push(element1.attribs["data-src"]);
             }
         });
         return pages;
