@@ -523,7 +523,7 @@ const GuyaTemplate_1 = require("../GuyaTemplate");
 const BASE = "https://hachirumi.com";
 exports.HachirumiInfo = {
     icon: "icon.png",
-    version: "1.0.2",
+    version: "1.1.0",
     name: "Hachirumi",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -535,6 +535,10 @@ exports.HachirumiInfo = {
         {
             text: "Notifications",
             type: paperback_extensions_common_1.TagType.GREEN
+        },
+        {
+            text: "Cloudflare",
+            type: paperback_extensions_common_1.TagType.RED
         }
     ]
 };
@@ -542,6 +546,12 @@ class Hachirumi extends GuyaTemplate_1.GuyaTemplate {
     constructor() {
         super(...arguments);
         this.baseUrl = BASE;
+    }
+    getCloudflareBypassRequest() {
+        return createRequestObject({
+            url: this.baseUrl,
+            method: "GET"
+        });
     }
 }
 exports.Hachirumi = Hachirumi;
