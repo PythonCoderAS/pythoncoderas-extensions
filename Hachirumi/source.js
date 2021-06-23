@@ -459,9 +459,9 @@ class GuyaTemplate extends paperback_extensions_common_1.Source {
             });
             const data = yield this.requestManager.schedule(request, 1);
             let result = typeof data.data === "string" ? JSON.parse(data.data) : data.data;
-            let result2 = [...(Object.values(result))];
+            let result2 = Object.entries(result);
             result2.sort((a, b) => {
-                return b["last_updated"] - a["last_updated"];
+                return b[1]["last_updated"] - a[1]["last_updated"];
             });
             let mangas = [];
             for (let series in result) {
@@ -474,8 +474,9 @@ class GuyaTemplate extends paperback_extensions_common_1.Source {
             }
             homeSection.items = mangas;
             let mangas2 = [];
-            for (let series in result2) {
-                let seriesDetails = result2[series];
+            for (let i = 0; i < result2.length; i++) {
+                let series = result2[i][0];
+                let seriesDetails = result2[i][1];
                 mangas2.push(createMangaTile({
                     id: seriesDetails["slug"],
                     image: `${this.baseUrl}/${seriesDetails["cover"]}`,
@@ -522,7 +523,7 @@ const GuyaTemplate_1 = require("../GuyaTemplate");
 const BASE = "https://hachirumi.com";
 exports.HachirumiInfo = {
     icon: "icon.png",
-    version: "1.0.1",
+    version: "1.0.2",
     name: "Hachirumi",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
