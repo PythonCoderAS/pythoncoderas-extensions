@@ -162,9 +162,9 @@ export abstract class GuyaTemplate extends Source {
         const data = await this.requestManager.schedule(request, 1)
 
         let result: {[key: string]: {[name: string]: any}} = typeof data.data === "string" ? JSON.parse(data.data) : data.data
-        let result2 = [...(Object.values(result))];
+        let result2 = Object.entries(result);
         result2.sort((a, b) => {
-            return b["last_updated"] - a["last_updated"];
+            return b[1]["last_updated"] - a[1]["last_updated"];
         })
 
         let mangas = []
@@ -181,8 +181,9 @@ export abstract class GuyaTemplate extends Source {
         homeSection.items = mangas
 
         let mangas2 = []
-        for (let series in result2) {
-            let seriesDetails = result2[series]
+        for (let i: number=0; i<result2.length; i++) {
+            let series = result2[i][0]
+            let seriesDetails = result2[i][1]
             mangas2.push(
                 createMangaTile({
                     id: seriesDetails["slug"],
