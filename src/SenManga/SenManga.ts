@@ -9,7 +9,7 @@ import {
     SearchRequest,
     Source,
     SourceInfo,
-    TagSection,
+    TagSection, TagType,
 } from "paperback-extensions-common"
 import {SenMangaParser} from "./SenMangaParser";
 
@@ -17,14 +17,20 @@ const BASE = "https://raw.senmanga.com"
 
 export const SenMangaInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.3",
+    version: "1.0.4",
     name: "SenManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
     description: "Extension that pulls manga from SenManga",
     language: "jp",
     hentaiSource: false,
-    websiteBaseURL: BASE
+    websiteBaseURL: BASE,
+    sourceTags: [
+        {
+            text: "Notifications",
+            type: TagType.GREEN
+        }
+    ]
 }
 
 export class SenManga extends Source {

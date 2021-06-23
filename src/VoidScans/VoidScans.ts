@@ -7,7 +7,7 @@ import {
     Request, RequestManager,
     SearchRequest,
     Source,
-    SourceInfo,
+    SourceInfo, TagType,
 } from "paperback-extensions-common"
 import {VoidScansParser} from "./VoidScansParser";
 
@@ -15,14 +15,20 @@ const BASE = "https://voidscans.net"
 
 export const VoidScansInfo: SourceInfo = {
     icon: "icon.svg",
-    version: "1.4.1",
+    version: "1.4.2",
     name: "VoidScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
     description: "Extension that pulls manga from VoidScans",
     language: "en",
     hentaiSource: false,
-    websiteBaseURL: BASE
+    websiteBaseURL: BASE,
+    sourceTags: [
+        {
+            text: "Broken",
+            type: TagType.RED
+        }
+    ]
 }
 
 export class VoidScans extends Source {
