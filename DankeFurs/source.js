@@ -327,28 +327,45 @@ __exportStar(require("./UserForm"), exports);
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DankeFurs = exports.DankeFursInfo = void 0;
+const paperback_extensions_common_1 = require("paperback-extensions-common");
 const GuyaTemplate_1 = require("../GuyaTemplate");
 const BASE = "https://danke.moe";
 exports.DankeFursInfo = {
     icon: "icon.png",
-    version: "1.0.5",
+    version: "1.1.0",
     name: "DankeFurs",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
     description: "Extension that pulls manga from DankeFurs",
     language: "en",
     hentaiSource: false,
-    websiteBaseURL: BASE
+    websiteBaseURL: BASE,
+    sourceTags: [
+        {
+            text: "Notifications",
+            type: paperback_extensions_common_1.TagType.GREEN
+        },
+        {
+            text: "Cloudflare",
+            type: paperback_extensions_common_1.TagType.RED
+        }
+    ]
 };
 class DankeFurs extends GuyaTemplate_1.GuyaTemplate {
     constructor() {
         super(...arguments);
         this.baseUrl = BASE;
     }
+    getCloudflareBypassRequest() {
+        return createRequestObject({
+            url: this.baseUrl,
+            method: "GET"
+        });
+    }
 }
 exports.DankeFurs = DankeFurs;
 
-},{"../GuyaTemplate":27}],27:[function(require,module,exports){
+},{"../GuyaTemplate":27,"paperback-extensions-common":4}],27:[function(require,module,exports){
 "use strict";
 /**
  * This is <b>not</b> a dedicated Guya.moe template repo. However, I feel that it is pointless to introduce yet another

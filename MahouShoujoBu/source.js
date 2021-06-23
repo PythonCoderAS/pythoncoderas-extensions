@@ -500,18 +500,25 @@ exports.GuyaTemplate = GuyaTemplate;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MahouShoujoBu = exports.MahouShoujoBuInfo = void 0;
+const paperback_extensions_common_1 = require("paperback-extensions-common");
 const GuyaTemplate_1 = require("../GuyaTemplate");
-const BASE = "https://mahoushoujobu.com/";
+const BASE = "https://mahoushoujobu.com";
 exports.MahouShoujoBuInfo = {
     icon: "icon.png",
-    version: "1.0.2",
+    version: "1.0.3",
     name: "MahouShoujoBu",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
     description: "Extension that pulls manga from MahouShoujoBu",
     language: "en",
     hentaiSource: false,
-    websiteBaseURL: BASE
+    websiteBaseURL: BASE,
+    sourceTags: [
+        {
+            text: "Notifications",
+            type: paperback_extensions_common_1.TagType.GREEN
+        }
+    ]
 };
 class MahouShoujoBu extends GuyaTemplate_1.GuyaTemplate {
     constructor() {
@@ -521,5 +528,5 @@ class MahouShoujoBu extends GuyaTemplate_1.GuyaTemplate {
 }
 exports.MahouShoujoBu = MahouShoujoBu;
 
-},{"../GuyaTemplate":26}]},{},[27])(27)
+},{"../GuyaTemplate":26,"paperback-extensions-common":4}]},{},[27])(27)
 });

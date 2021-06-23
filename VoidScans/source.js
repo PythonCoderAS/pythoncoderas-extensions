@@ -341,14 +341,20 @@ const VoidScansParser_1 = require("./VoidScansParser");
 const BASE = "https://voidscans.net";
 exports.VoidScansInfo = {
     icon: "icon.svg",
-    version: "1.4.1",
+    version: "1.4.2",
     name: "VoidScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
     description: "Extension that pulls manga from VoidScans",
     language: "en",
     hentaiSource: false,
-    websiteBaseURL: BASE
+    websiteBaseURL: BASE,
+    sourceTags: [
+        {
+            text: "Broken",
+            type: paperback_extensions_common_1.TagType.RED
+        }
+    ]
 };
 class VoidScans extends paperback_extensions_common_1.Source {
     constructor() {
