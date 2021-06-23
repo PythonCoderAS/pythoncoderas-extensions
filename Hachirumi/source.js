@@ -449,14 +449,20 @@ class GuyaTemplate extends paperback_extensions_common_1.Source {
     getHomePageSections(sectionCallback) {
         return __awaiter(this, void 0, void 0, function* () {
             // Send the empty homesection back so the app can preload the section
-            var homeSection = createHomeSection({ id: "all", title: "ALL MANGAS" });
+            let homeSection = createHomeSection({ id: "all", title: "ALL MANGAS" });
+            let homeSection2 = createHomeSection({ id: "latest", title: "UPDATED RECENTLY" });
             sectionCallback(homeSection);
+            sectionCallback(homeSection2);
             const request = createRequestObject({
                 url: `${this.baseUrl}/api/get_all_series/`,
                 method: "GET"
             });
             const data = yield this.requestManager.schedule(request, 1);
             let result = typeof data.data === "string" ? JSON.parse(data.data) : data.data;
+            let result2 = [...(Object.values(result))];
+            result2.sort((a, b) => {
+                return b["last_updated"] - a["last_updated"];
+            });
             let mangas = [];
             for (let series in result) {
                 let seriesDetails = result[series];
@@ -467,7 +473,18 @@ class GuyaTemplate extends paperback_extensions_common_1.Source {
                 }));
             }
             homeSection.items = mangas;
+            let mangas2 = [];
+            for (let series in result2) {
+                let seriesDetails = result2[series];
+                mangas2.push(createMangaTile({
+                    id: seriesDetails["slug"],
+                    image: `${this.baseUrl}/${seriesDetails["cover"]}`,
+                    title: createIconText({ text: series }),
+                }));
+            }
+            homeSection2.items = mangas2;
             sectionCallback(homeSection);
+            sectionCallback(homeSection2);
         });
     }
     filterUpdatedManga(mangaUpdatesFoundCallback, time, ids) {
@@ -505,7 +522,7 @@ const GuyaTemplate_1 = require("../GuyaTemplate");
 const BASE = "https://hachirumi.com";
 exports.HachirumiInfo = {
     icon: "icon.png",
-    version: "1.0.0",
+    version: "1.0.1",
     name: "Hachirumi",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
