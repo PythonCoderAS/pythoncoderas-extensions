@@ -149,8 +149,10 @@ export abstract class GuyaTemplate extends Source {
     async getHomePageSections(sectionCallback: (section: HomeSection) => void): Promise<void> {
 
         // Send the empty homesection back so the app can preload the section
-        var homeSection = createHomeSection({ id: "all", title: "ALL MANGAS" })
+        let homeSection = createHomeSection({ id: "all", title: "ALL MANGAS" })
+        let homeSection2 = createHomeSection({id: "latest", title: "UPDATED RECENTLY"})
         sectionCallback(homeSection)
+        sectionCallback(homeSection2)
 
         const request = createRequestObject({
             url: `${this.baseUrl}/api/get_all_series/`,
@@ -159,7 +161,11 @@ export abstract class GuyaTemplate extends Source {
 
         const data = await this.requestManager.schedule(request, 1)
 
-        let result = typeof data.data === "string" ? JSON.parse(data.data) : data.data
+        let result: {[key: string]: {[name: string]: any}} = typeof data.data === "string" ? JSON.parse(data.data) : data.data
+        let result2 = [...(Object.values(result))];
+        result2.sort((a, b) => {
+            return b["last_updated"] - a["last_updated"];
+        })
 
         let mangas = []
         for (let series in result) {
@@ -174,7 +180,21 @@ export abstract class GuyaTemplate extends Source {
         }
         homeSection.items = mangas
 
-        sectionCallback(homeSection)
+        let mangas2 = []
+        for (let series in result2) {
+            let seriesDetails = result2[series]
+            mangas2.push(
+                createMangaTile({
+                    id: seriesDetails["slug"],
+                    image: `${this.baseUrl}/${seriesDetails["cover"]}`,
+                    title: createIconText({ text: series }),
+                })
+            )
+        }
+        homeSection2.items = mangas2;
+
+        sectionCallback(homeSection);
+        sectionCallback(homeSection2);
     }
 
     async filterUpdatedManga(mangaUpdatesFoundCallback: (updates: MangaUpdates) => void, time: Date, ids: string[]): Promise<void> {

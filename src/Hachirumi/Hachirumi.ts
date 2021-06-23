@@ -5,7 +5,7 @@ const BASE = "https://hachirumi.com"
 
 export const HachirumiInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.0",
+    version: "1.0.1",
     name: "Hachirumi",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
