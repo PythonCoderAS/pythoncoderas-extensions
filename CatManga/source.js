@@ -341,7 +341,7 @@ const CatMangaParser_1 = require("./CatMangaParser");
 const BASE = "https://catmanga.org";
 exports.CatMangaInfo = {
     icon: "icon.png",
-    version: "1.2.9",
+    version: "1.2.10",
     name: "CatManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -431,17 +431,13 @@ class CatManga extends paperback_extensions_common_1.Source {
         return __awaiter(this, void 0, void 0, function* () {
             // TODO: Wait for search to be implemented on the website.
             const results = (yield this.getWebsiteMangaDirectory(null)).results;
+            let data;
             if (query.title) {
-                query.title = query.title.replace(/\+/g, " ").trim();
+                const filterTitle = query.title.replace(/\+/g, " ").trim().toLowerCase();
+                data = results.filter((key) => (key.title.text || "").toLowerCase().includes(filterTitle));
             }
-            const data = [];
-            for (let i = 0; i < results.length; i++) {
-                const key = results[i];
-                if (query.title) {
-                    if ((key.title.text || "").toLowerCase().includes((query.title.toLowerCase()))) {
-                        data.push(key);
-                    }
-                }
+            else {
+                data = results;
             }
             console.log(data.length);
             return createPagedResults({
