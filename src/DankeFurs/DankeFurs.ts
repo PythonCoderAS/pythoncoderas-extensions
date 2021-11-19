@@ -5,7 +5,7 @@ const BASE = "https://danke.moe"
 
 export const DankeFursInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.1.2",
+    version: "1.1.3",
     name: "DankeFurs",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -20,6 +20,10 @@ export const DankeFursInfo: SourceInfo = {
         },
         {
             text: "Cloudflare",
+            type: TagType.RED
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
             type: TagType.RED
         }
     ]

@@ -21,7 +21,7 @@ const BASE = "http://dridesp.ooo"
 
 export const DridespoonInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.0",
+    version: "1.0.1",
     name: "Dridespoon",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -33,6 +33,14 @@ export const DridespoonInfo: SourceInfo = {
         {
             text: "Notifications",
             type: TagType.GREEN
+        },
+        {
+            text: "Site Down Forever",
+            type: TagType.RED
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: TagType.RED
         }
     ]
 }

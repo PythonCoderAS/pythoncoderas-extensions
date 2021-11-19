@@ -9,7 +9,7 @@ import {
     SearchRequest,
     Source,
     SourceInfo,
-    TagSection,
+    TagSection, TagType,
 } from "paperback-extensions-common"
 import {NovelCoolParser} from "./NovelCoolParser";
 
@@ -17,14 +17,20 @@ const BASE = "https://www.novelcool.com"
 
 export const NovelCoolInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.2",
+    version: "1.0.3",
     name: "NovelCool",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
     description: "Extension that pulls manga from NovelCool",
     language: "en",
     hentaiSource: false,
-    websiteBaseURL: BASE
+    websiteBaseURL: BASE,
+    sourceTags: [
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: TagType.RED
+        }
+    ]
 }
 
 export class NovelCool extends Source {

@@ -5,7 +5,7 @@ const BASE = "https://hachirumi.com"
 
 export const HachirumiInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.1.0",
+    version: "1.1.1",
     name: "Hachirumi",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -20,6 +20,10 @@ export const HachirumiInfo: SourceInfo = {
         },
         {
             text: "Cloudflare",
+            type: TagType.RED
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
             type: TagType.RED
         }
     ]

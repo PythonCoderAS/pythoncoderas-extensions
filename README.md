@@ -1,4 +1,6 @@
-# PythonCoderAS Sources 
+**Deprecated: I will no longer update these extensions. Please use other extensions as a replacement.**
+
+# PythonCoderAS Sources
 Misc. sources for scanlators and aggregators.
 
 # Websites

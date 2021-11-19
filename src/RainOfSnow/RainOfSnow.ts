@@ -7,7 +7,7 @@ import {
     Request, RequestManager,
     SearchRequest,
     Source,
-    SourceInfo,
+    SourceInfo, TagType,
 } from "paperback-extensions-common"
 import {RainOfSnowParser} from "./RainOfSnowParser";
 
@@ -15,14 +15,20 @@ const BASE = "https://rainofsnow.com"
 
 export const RainOfSnowInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.4.1",
+    version: "1.4.2",
     name: "RainOfSnow",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
     description: "Extension that pulls manga from RainOfSnow",
     language: "en",
     hentaiSource: false,
-    websiteBaseURL: BASE
+    websiteBaseURL: BASE,
+    sourceTags: [
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: TagType.RED
+        }
+    ]
 }
 
 export class RainOfSnow extends Source {

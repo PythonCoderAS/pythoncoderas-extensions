@@ -17,7 +17,7 @@ const BASE = "https://raw.senmanga.com"
 
 export const SenMangaInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.4",
+    version: "1.0.5",
     name: "SenManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -29,6 +29,10 @@ export const SenMangaInfo: SourceInfo = {
         {
             text: "Notifications",
             type: TagType.GREEN
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: TagType.RED
         }
     ]
 }

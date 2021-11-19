@@ -5,7 +5,7 @@ const BASE = "https://mahoushoujobu.com"
 
 export const MahouShoujoBuInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.5",
+    version: "1.0.6",
     name: "MahouShoujoBu",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -17,6 +17,10 @@ export const MahouShoujoBuInfo: SourceInfo = {
         {
             text: "Notifications",
             type: TagType.GREEN
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: TagType.RED
         }
     ]
 }

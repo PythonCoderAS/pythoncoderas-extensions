@@ -2,12 +2,16 @@ import {
     Chapter,
     ChapterDetails,
     HomeSection,
-    Manga, MangaTile, MangaUpdates,
+    Manga,
+    MangaTile,
+    MangaUpdates,
     PagedResults,
-    Request, RequestManager,
+    Request,
+    RequestManager,
     SearchRequest,
     Source,
     SourceInfo,
+    TagType,
 } from "paperback-extensions-common"
 import {CatMangaParser} from "./CatMangaParser";
 
@@ -15,14 +19,24 @@ const BASE = "https://catmanga.org"
 
 export const CatMangaInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.2.9",
+    version: "1.2.10",
     name: "CatManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
     description: "Extension that pulls manga from CatManga",
     language: "en",
     hentaiSource: false,
-    websiteBaseURL: BASE
+    websiteBaseURL: BASE,
+    sourceTags: [
+        {
+            text: "Site Down Forever",
+            type: TagType.RED
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: TagType.RED
+        }
+    ]
 }
 
 export class CatManga extends Source {
