@@ -523,7 +523,7 @@ const GuyaTemplate_1 = require("../GuyaTemplate");
 const BASE = "https://hachirumi.com";
 exports.HachirumiInfo = {
     icon: "icon.png",
-    version: "1.1.0",
+    version: "1.1.1",
     name: "Hachirumi",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -538,6 +538,10 @@ exports.HachirumiInfo = {
         },
         {
             text: "Cloudflare",
+            type: paperback_extensions_common_1.TagType.RED
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
             type: paperback_extensions_common_1.TagType.RED
         }
     ]

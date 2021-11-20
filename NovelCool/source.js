@@ -341,14 +341,20 @@ const NovelCoolParser_1 = require("./NovelCoolParser");
 const BASE = "https://www.novelcool.com";
 exports.NovelCoolInfo = {
     icon: "icon.png",
-    version: "1.0.2",
+    version: "1.0.3",
     name: "NovelCool",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
     description: "Extension that pulls manga from NovelCool",
     language: "en",
     hentaiSource: false,
-    websiteBaseURL: BASE
+    websiteBaseURL: BASE,
+    sourceTags: [
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: paperback_extensions_common_1.TagType.RED
+        }
+    ]
 };
 class NovelCool extends paperback_extensions_common_1.Source {
     constructor() {

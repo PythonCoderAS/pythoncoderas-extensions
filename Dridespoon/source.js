@@ -341,7 +341,7 @@ const DridespoonParser_1 = require("./DridespoonParser");
 const BASE = "http://dridesp.ooo";
 exports.DridespoonInfo = {
     icon: "icon.png",
-    version: "1.0.0",
+    version: "1.0.1",
     name: "Dridespoon",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -353,6 +353,14 @@ exports.DridespoonInfo = {
         {
             text: "Notifications",
             type: paperback_extensions_common_1.TagType.GREEN
+        },
+        {
+            text: "Site Down Forever",
+            type: paperback_extensions_common_1.TagType.RED
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: paperback_extensions_common_1.TagType.RED
         }
     ]
 };

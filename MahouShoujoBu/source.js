@@ -523,7 +523,7 @@ const GuyaTemplate_1 = require("../GuyaTemplate");
 const BASE = "https://mahoushoujobu.com";
 exports.MahouShoujoBuInfo = {
     icon: "icon.png",
-    version: "1.0.5",
+    version: "1.0.6",
     name: "MahouShoujoBu",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -535,6 +535,10 @@ exports.MahouShoujoBuInfo = {
         {
             text: "Notifications",
             type: paperback_extensions_common_1.TagType.GREEN
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: paperback_extensions_common_1.TagType.RED
         }
     ]
 };

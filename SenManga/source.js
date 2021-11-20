@@ -341,7 +341,7 @@ const SenMangaParser_1 = require("./SenMangaParser");
 const BASE = "https://raw.senmanga.com";
 exports.SenMangaInfo = {
     icon: "icon.png",
-    version: "1.0.4",
+    version: "1.0.5",
     name: "SenManga",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -353,6 +353,10 @@ exports.SenMangaInfo = {
         {
             text: "Notifications",
             type: paperback_extensions_common_1.TagType.GREEN
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: paperback_extensions_common_1.TagType.RED
         }
     ]
 };

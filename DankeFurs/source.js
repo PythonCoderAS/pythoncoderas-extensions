@@ -332,7 +332,7 @@ const GuyaTemplate_1 = require("../GuyaTemplate");
 const BASE = "https://danke.moe";
 exports.DankeFursInfo = {
     icon: "icon.png",
-    version: "1.1.2",
+    version: "1.1.3",
     name: "DankeFurs",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -347,6 +347,10 @@ exports.DankeFursInfo = {
         },
         {
             text: "Cloudflare",
+            type: paperback_extensions_common_1.TagType.RED
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
             type: paperback_extensions_common_1.TagType.RED
         }
     ]

@@ -348,7 +348,17 @@ exports.CatMangaInfo = {
     description: "Extension that pulls manga from CatManga",
     language: "en",
     hentaiSource: false,
-    websiteBaseURL: BASE
+    websiteBaseURL: BASE,
+    sourceTags: [
+        {
+            text: "Site Down Forever",
+            type: paperback_extensions_common_1.TagType.RED
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: paperback_extensions_common_1.TagType.RED
+        }
+    ]
 };
 class CatManga extends paperback_extensions_common_1.Source {
     constructor() {

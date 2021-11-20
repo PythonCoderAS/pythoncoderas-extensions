@@ -341,14 +341,20 @@ const RainOfSnowParser_1 = require("./RainOfSnowParser");
 const BASE = "https://rainofsnow.com";
 exports.RainOfSnowInfo = {
     icon: "icon.png",
-    version: "1.4.1",
+    version: "1.4.2",
     name: "RainOfSnow",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
     description: "Extension that pulls manga from RainOfSnow",
     language: "en",
     hentaiSource: false,
-    websiteBaseURL: BASE
+    websiteBaseURL: BASE,
+    sourceTags: [
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: paperback_extensions_common_1.TagType.RED
+        }
+    ]
 };
 class RainOfSnow extends paperback_extensions_common_1.Source {
     constructor() {
